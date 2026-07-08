@@ -41,7 +41,7 @@
   .brand small{display:block;font-weight:700;font-style:normal;font-size:8px;letter-spacing:2px;color:var(--dim);margin-top:1px;}
   .screw{position:absolute;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#444a5e,#0b0c11);box-shadow:inset 0 0 2px #000,0 1px 0 #ffffff10;}
   .screw.tl{top:10px;left:10px;}.screw.tr{top:10px;right:10px;}.screw.bl{bottom:10px;left:10px;}.screw.br{bottom:10px;right:10px;}
-  @media(max-width:880px){.controller{grid-template-columns:1fr;}}
+  /* A mesa NUNCA empilha em coluna vertical: landscape compacta e portrait mostra aviso p/ rodar (regras no FIM do CSS, ordem de cascata). */
   .deck{display:flex;flex-direction:column;gap:12px;position:relative;}
   .deck-top{display:flex;gap:12px;align-items:flex-start;}
   .deck.B .deck-top{flex-direction:row-reverse;}
@@ -224,6 +224,54 @@
     .hud{left:8px;right:8px;transform:none;max-width:none;}
     .hud.show{transform:none;}
   }
+  /* ===== MESA SÓ NA HORIZONTAL =====
+     Landscape em ecrã baixo (telemóvel deitado): mesa completa em 3 colunas, compactada. */
+  @media(orientation:landscape) and (max-height:540px){
+    .dock{padding:6px 8px 4px;}
+    .controller{grid-template-columns:1fr 240px 1fr;gap:10px;padding:10px 10px 16px;}
+    .knobrows{flex-direction:column;gap:5px;}
+    .knobcol{flex-direction:row;gap:4px;justify-content:center;align-items:center;}
+    .colhdr{width:26px;text-align:right;}
+    .brand{display:none;}
+    .deck{gap:6px;}
+    .deck-top{gap:6px;}
+    .jog{width:96px;height:96px;border-width:4px;}
+    .jog .platter{inset:9px;}
+    .jog .hub{inset:32px;font-size:10px;}
+    .jog .marker{top:4px;height:14px;transform-origin:50% 44px;}
+    .jog .beatled{width:10px;height:10px;bottom:8px;}
+    .jog-wrap{gap:5px;}
+    .bpmline .big{font-size:18px;}
+    .matchdot{font-size:9px;min-height:10px;}
+    .trackname{font-size:9px;}
+    .wave{height:30px;}
+    .pad{height:34px;font-size:8.5px;}
+    .tbtn{padding:6px 0;font-size:10px;}
+    .fxbtn{padding:5px 0;font-size:9px;}
+    input[type=range].pitch{height:64px;}
+    .gmeter{height:64px;}
+    .scope{display:none;}
+    input[type=range].vol{height:64px;}
+    .chfaders{gap:14px;}
+    .mixer{padding:8px 8px;gap:8px;}
+    .knob{width:34px;height:34px;}
+    .knob .ind{height:11px;top:4px;transform-origin:50% 13px;}
+    .knobcol{gap:6px;}
+    .knobcell{gap:2px;}
+    .knoblabel,.knobval{font-size:8px;}
+    .colhdr{font-size:8px;}
+  }
+  /* Portrait estreito: nunca renderizar a mesa na vertical — esconder e pedir para rodar. */
+  .rotate-hint{display:none;}
+  @media(orientation:portrait) and (max-width:880px){
+    .controller{display:none!important;}
+    .rotate-hint{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;max-width:1100px;margin:0 auto;padding:36px 20px;border:1px dashed #3a3f52;border-radius:18px;text-align:center;color:#cfd2e4;background:linear-gradient(180deg,#15161d,#0c0d11);}
+    .controller.hidden+.rotate-hint{display:none;}
+    .rotate-hint .ph{font-size:36px;animation:rotph 1.8s ease-in-out infinite;}
+    .rotate-hint b{font-size:15px;}
+    .rotate-hint .tip{font-size:12px;color:var(--dim);max-width:340px;line-height:1.5;}
+  }
+  @keyframes rotph{0%,25%{transform:rotate(0deg);}60%,100%{transform:rotate(-90deg);}}
 </style>
 </head>
 <body>
@@ -359,6 +407,7 @@
       <input type="file" accept="audio/*" id="fileB" style="display:none">
     </div>
   </div>
+  <div class="rotate-hint"><span class="ph">📱</span><b>Roda o telemóvel</b><span class="tip">A mesa de DJ só funciona na horizontal — como uma controladora a sério. Vira o ecrã para veres os 2 decks lado a lado.</span></div>
   <div class="foot"><kbd>Q</kbd>/<kbd>P</kbd> play · <kbd>Z X</kbd>/<kbd>N M</kbd> bend · <kbd>S</kbd>/<kbd>L</kbd> sync · <kbd>←</kbd>/<kbd>→</kbd> x-fader · arrasta os jogs p/ ajustar a fase</div>
 </div>
 
@@ -620,7 +669,7 @@ function startAcademy(){
 }
 $("#startBtn").onclick=async()=>{buildAudio();if(AC.state==="suspended")await AC.resume();$("#overlay").style.display="none";bindControls();startAcademy();render();};
 $("#toggleDock").onclick=()=>{const c=$("#controller");const hid=c.classList.toggle("hidden");$("#toggleDock").textContent=hid?"Mostrar mesa ▼":"Esconder mesa ▲";};
-$("#fsBtn").onclick=()=>{const el=document.querySelector(".dock");const req=el.requestFullscreen||el.webkitRequestFullscreen;if(!req){toast("Ecrã inteiro não suportado neste browser");return;}if(!document.fullscreenElement&&!document.webkitFullscreenElement){req.call(el);}else{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}};
+$("#fsBtn").onclick=()=>{const el=document.querySelector(".dock");const req=el.requestFullscreen||el.webkitRequestFullscreen;if(!req){toast("Ecrã inteiro não suportado neste browser");return;}if(!document.fullscreenElement&&!document.webkitFullscreenElement){const p=req.call(el);if(p&&p.then)p.then(()=>{if(screen.orientation&&screen.orientation.lock)screen.orientation.lock("landscape").catch(()=>{});}).catch(()=>{});}else{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}};
 document.addEventListener("fullscreenchange",()=>{$("#fsBtn").textContent=document.fullscreenElement?"⛶ Sair":"⛶ Ecrã inteiro";});
 document.addEventListener("webkitfullscreenchange",()=>{$("#fsBtn").textContent=document.webkitFullscreenElement?"⛶ Sair":"⛶ Ecrã inteiro";});
 /* PWA: service worker (só http/https; file:// não suporta) */
