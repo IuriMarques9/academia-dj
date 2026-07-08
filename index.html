@@ -229,9 +229,17 @@
   @media(orientation:landscape) and (max-height:540px){
     .dock{padding:6px 8px 4px;}
     .controller{grid-template-columns:1fr 240px 1fr;gap:10px;padding:10px 10px 16px;}
-    .knobrows{flex-direction:column;gap:5px;}
-    .knobcol{flex-direction:row;gap:4px;justify-content:center;align-items:center;}
-    .colhdr{width:26px;text-align:right;}
+    /* Display de mesa real: knobs empilhados na vertical por canal (CH1 | centro | CH2),
+       master em cima ao centro, faders/x-fader/VU no meio. */
+    .mixer{display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto auto 1fr;gap:6px 8px;align-items:start;}
+    .knobrows{display:contents;}
+    .knobcol{gap:4px;}
+    .knobcol:nth-child(1){grid-column:1;grid-row:1/5;}
+    .knobcol:nth-child(2){grid-column:2;grid-row:1;}
+    .knobcol:nth-child(3){grid-column:3;grid-row:1/5;}
+    .chfaders{grid-column:2;grid-row:2;}
+    .mixer>div:nth-child(3){grid-column:2;grid-row:3;}
+    .vu{grid-column:2;grid-row:4;align-self:end;}
     .brand{display:none;}
     /* Botões nos bordos do ecrã (polegares): deck A à esquerda, deck B à direita. */
     .deck{display:grid;grid-template-columns:64px 1fr;grid-template-rows:auto auto;gap:6px;}

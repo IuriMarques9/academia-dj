@@ -1,5 +1,5 @@
 /* Academia de DJ — service worker: offline-first para app 100% estática. */
-const CACHE = "dj-academy-v3";
+const CACHE = "dj-academy-v4";
 const ASSETS = [
   "./",
   "./index.html",
