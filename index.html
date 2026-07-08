@@ -233,8 +233,19 @@
     .knobcol{flex-direction:row;gap:4px;justify-content:center;align-items:center;}
     .colhdr{width:26px;text-align:right;}
     .brand{display:none;}
-    .deck{gap:6px;}
+    /* Botões nos bordos do ecrã (polegares): deck A à esquerda, deck B à direita. */
+    .deck{display:grid;grid-template-columns:64px 1fr;grid-template-rows:auto auto;gap:6px;}
+    .deck .deck-top{grid-column:2;grid-row:1;}
+    .deck .jog-wrap{grid-column:2;grid-row:2;}
+    .deck .transport{grid-column:1;grid-row:1;flex-direction:column;gap:5px;}
+    .deck .fxrow{grid-column:1;grid-row:2;flex-direction:column;gap:5px;}
+    .deck.B{grid-template-columns:1fr 64px;}
+    .deck.B .deck-top{grid-column:1;grid-row:1;}
+    .deck.B .jog-wrap{grid-column:1;grid-row:2;}
+    .deck.B .transport{grid-column:2;grid-row:1;}
+    .deck.B .fxrow{grid-column:2;grid-row:2;}
     .deck-top{gap:6px;}
+    .sidecol{width:40px;}
     .jog{width:96px;height:96px;border-width:4px;}
     .jog .platter{inset:9px;}
     .jog .hub{inset:32px;font-size:10px;}
