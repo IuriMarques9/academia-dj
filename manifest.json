@@ -1,0 +1,17 @@
+{
+  "name": "Academia de DJ",
+  "short_name": "DJ Academy",
+  "description": "Simulador de controladora de DJ de 2 decks + curso interactivo. 100% offline.",
+  "lang": "pt",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#070809",
+  "theme_color": "#070809",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -2,15 +2,23 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Academia de DJ — RD MIX</title>
+<meta name="theme-color" content="#070809" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="DJ Academy" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <style>
   :root{
     --bg:#070809;--txt:#e7e9f3;--dim:#8a8fa6;
     --cyan:#27e1ff;--mag:#ff3ea5;--grn:#39e58c;--yel:#ffd23e;--red:#ff5252;--blue:#3aa0ff;--edge:#2a2d3d;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{background:radial-gradient(1200px 700px at 50% -8%,#15171f 0%,var(--bg) 55%);color:var(--txt);font-family:"Segoe UI",system-ui,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
+  body{background:radial-gradient(1200px 700px at 50% -8%,#15171f 0%,var(--bg) 55%);color:var(--txt);font-family:"Segoe UI",system-ui,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top);padding-bottom:calc(60px + env(safe-area-inset-bottom));overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
   header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid #1b1d26;}
   header h1{font-size:15px;letter-spacing:2px;font-weight:800;text-transform:uppercase;background:linear-gradient(90deg,var(--cyan),var(--mag));-webkit-background-clip:text;background-clip:text;color:transparent;}
   header .sub{font-size:11px;color:var(--dim);}
@@ -615,6 +623,10 @@ $("#toggleDock").onclick=()=>{const c=$("#controller");const hid=c.classList.tog
 $("#fsBtn").onclick=()=>{const el=document.querySelector(".dock");const req=el.requestFullscreen||el.webkitRequestFullscreen;if(!req){toast("Ecrã inteiro não suportado neste browser");return;}if(!document.fullscreenElement&&!document.webkitFullscreenElement){req.call(el);}else{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}};
 document.addEventListener("fullscreenchange",()=>{$("#fsBtn").textContent=document.fullscreenElement?"⛶ Sair":"⛶ Ecrã inteiro";});
 document.addEventListener("webkitfullscreenchange",()=>{$("#fsBtn").textContent=document.webkitFullscreenElement?"⛶ Sair":"⛶ Ecrã inteiro";});
+/* PWA: service worker (só http/https; file:// não suporta) */
+if("serviceWorker" in navigator && location.protocol.indexOf("http")===0){
+  addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
 $("#hudX").onclick=()=>{hudDrill=null;$("#hud").classList.remove("show");};
 function resetMesa(){if(!AC)return;for(const k of["A","B"]){const dk=decks[k];setPlay(k,false);dk.absStep=0;dk.loopOn=false;dk.echoOn=false;dk.syncOn=false;$(`[data-loop="${k}"]`).classList.remove("on");$(`[data-echo="${k}"]`).classList.remove("on");$(`[data-sync="${k}"]`).classList.remove("on");if(dk.echoSend)dk.echoSend.gain.setTargetAtTime(0,AC.currentTime,0.02);setVol(k,0.8);$(`#vol${k}`).value=0.8;setTempo(k,0);$(`#tempo${k}`).value=0;}setXfader(0);["A:trim","B:trim"].forEach(id=>setKnob(id,0.6));["A:low","A:mid","A:high","B:low","B:mid","B:high","A:filter","B:filter"].forEach(id=>setKnob(id,0));setKnob("M:master",0.85);hudDrill=null;$("#hud").classList.remove("show");}
 $("#resetBtn").onclick=()=>{completedDrills.clear();completedQuiz.clear();score=0;curMod=0;resetMesa();renderModule();renderGlossary();renderCamelot();renderPlan();updateProgress();toast("Progresso e mesa reiniciados");};
