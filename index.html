@@ -55,9 +55,12 @@
   .pad span{position:relative;z-index:1;}
   .sidecol{display:flex;flex-direction:column;align-items:center;gap:5px;width:54px;}
   .sidecol .lbl{font-size:8px;color:var(--dim);letter-spacing:1px;}
-  input[type=range].pitch{-webkit-appearance:none;appearance:none;writing-mode:vertical-lr;direction:rtl;width:8px;height:104px;background:#0a0b10;border:1px solid #2a2d3d;border-radius:5px;cursor:pointer;box-shadow:inset 0 0 5px #000;touch-action:none;}
-  input[type=range].pitch::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:13px;border-radius:3px;background:linear-gradient(180deg,#e9ebf5,#9498ac);border:1px solid #000;box-shadow:0 1px 2px #000;}
-  input[type=range].pitch::-moz-range-thumb{width:30px;height:13px;border-radius:3px;background:#cfd2e4;border:1px solid #000;}
+  /* faders custom (vol/pitch): Pointer Events em vez de input[type=range] vertical.
+     writing-mode:vertical em range só arrasta em Safari iOS >=17.4; isto funciona em todas. */
+  .fader{position:relative;flex:0 0 auto;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;}
+  .fader .thumb{position:absolute;left:50%;transform:translateX(-50%);pointer-events:none;}
+  .fader.pitch{width:8px;height:104px;background:#0a0b10;border:1px solid #2a2d3d;border-radius:5px;box-shadow:inset 0 0 5px #000;}
+  .fader.pitch .thumb{width:30px;height:13px;border-radius:3px;background:linear-gradient(180deg,#e9ebf5,#9498ac);border:1px solid #000;box-shadow:0 1px 2px #000;}
   .gmeter{width:11px;height:104px;background:#0a0b10;border:1px solid #2a2d3d;border-radius:4px;position:relative;overflow:hidden;display:flex;flex-direction:column-reverse;}
   .gmeter>i{display:block;width:100%;background:linear-gradient(0deg,var(--grn),var(--yel) 68%,var(--red) 88%);height:0;transition:height .05s;}
   .jog-wrap{display:flex;flex-direction:column;align-items:center;gap:9px;}
@@ -99,9 +102,8 @@
   .scope{width:140px;height:140px;align-self:center;}
   .chfaders{display:flex;justify-content:center;gap:30px;}
   .chfader{display:flex;flex-direction:column;align-items:center;gap:5px;}
-  input[type=range].vol{-webkit-appearance:none;appearance:none;writing-mode:vertical-lr;direction:rtl;width:10px;height:114px;background:#070809;border:1px solid #2a2d3d;border-radius:6px;cursor:pointer;box-shadow:inset 0 0 6px #000;touch-action:none;}
-  input[type=range].vol::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:16px;border-radius:4px;background:linear-gradient(180deg,#f0f2fa,#9498ac);border:1px solid #000;box-shadow:0 1px 3px #000;}
-  input[type=range].vol::-moz-range-thumb{width:34px;height:16px;border-radius:4px;background:#cfd2e4;border:1px solid #000;}
+  .fader.vol{width:10px;height:114px;background:#070809;border:1px solid #2a2d3d;border-radius:6px;box-shadow:inset 0 0 6px #000;}
+  .fader.vol .thumb{width:34px;height:16px;border-radius:4px;background:linear-gradient(180deg,#f0f2fa,#9498ac);border:1px solid #000;box-shadow:0 1px 3px #000;}
   .chnum{font-size:11px;font-weight:800;color:var(--dim);}
   .xf-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--dim);margin-bottom:4px;}
   .xf-labels .a{color:var(--cyan);}.xf-labels .b{color:var(--mag);}
@@ -232,8 +234,8 @@
     .fxbtn{padding:11px 0;font-size:11px;}
     .knob{width:50px;height:50px;}
     .knob .ind{height:17px;transform-origin:50% 21px;top:5px;}
-    input[type=range].vol{height:132px;width:12px;}
-    input[type=range].pitch{height:114px;width:10px;}
+    .fader.vol{height:132px;width:12px;}
+    .fader.pitch{height:114px;width:10px;}
     .gmeter{height:114px;width:13px;}
     input[type=range].xf{height:16px;}
     .wave{height:64px;}
@@ -282,10 +284,10 @@
     .pad{height:34px;font-size:8.5px;}
     .tbtn{padding:6px 0;font-size:10px;}
     .fxbtn{padding:5px 0;font-size:9px;}
-    input[type=range].pitch{height:64px;}
+    .fader.pitch{height:64px;}
     .gmeter{height:64px;}
     .scope{display:none;}
-    input[type=range].vol{height:64px;}
+    .fader.vol{height:64px;}
     .chfaders{gap:56px;}
     .mixer{padding:8px 8px;gap:8px;}
     .knob{width:34px;height:34px;}
@@ -348,7 +350,7 @@
           <div class="pad" data-pad="A:3" data-c="grn"><div class="glow"></div><span>HORN</span></div>
           <div class="pad" data-pad="A:4" data-c="yel"><div class="glow"></div><span>ROLL</span></div>
         </div>
-        <div class="sidecol"><div class="lbl">TEMPO</div><input type="range" class="pitch" id="tempoA" min="-8" max="8" step="0.1" value="0"></div>
+        <div class="sidecol"><div class="lbl">TEMPO</div><div class="fader pitch" id="tempoA" data-fader="A:tempo" data-val="0"><div class="thumb"></div></div></div>
         <div class="sidecol"><div class="lbl">NÍVEL</div><div class="gmeter"><i id="gmA"></i></div></div>
       </div>
       <div class="jog-wrap">
@@ -398,8 +400,8 @@
         </div>
       </div>
       <div class="chfaders">
-        <div class="chfader"><input type="range" class="vol" id="volA" min="0" max="1" step="0.01" value="0.8"><div class="chnum" style="color:var(--cyan)">1</div></div>
-        <div class="chfader"><input type="range" class="vol" id="volB" min="0" max="1" step="0.01" value="0.8"><div class="chnum" style="color:var(--mag)">2</div></div>
+        <div class="chfader"><div class="fader vol" id="volA" data-fader="A:vol" data-val="0.8"><div class="thumb"></div></div><div class="chnum" style="color:var(--cyan)">1</div></div>
+        <div class="chfader"><div class="fader vol" id="volB" data-fader="B:vol" data-val="0.8"><div class="thumb"></div></div><div class="chnum" style="color:var(--mag)">2</div></div>
       </div>
       <div>
         <div class="xf-labels"><span class="a">◀ 1</span><span>X-FADER</span><span class="b">2 ▶</span></div>
@@ -417,7 +419,7 @@
           <div class="pad" data-pad="B:3" data-c="grn"><div class="glow"></div><span>HORN</span></div>
           <div class="pad" data-pad="B:4" data-c="yel"><div class="glow"></div><span>ROLL</span></div>
         </div>
-        <div class="sidecol"><div class="lbl">TEMPO</div><input type="range" class="pitch" id="tempoB" min="-8" max="8" step="0.1" value="0"></div>
+        <div class="sidecol"><div class="lbl">TEMPO</div><div class="fader pitch" id="tempoB" data-fader="B:tempo" data-val="0"><div class="thumb"></div></div></div>
         <div class="sidecol"><div class="lbl">NÍVEL</div><div class="gmeter"><i id="gmB"></i></div></div>
       </div>
       <div class="jog-wrap">
@@ -548,7 +550,7 @@ function applyCrossfade(){const a=Math.cos(crossfade*Math.PI/2),b=Math.sin(cross
 function setXfader(v){crossfade=v;$("#xfader").value=v;applyCrossfade();}
 function toggleLoop(k){const dk=decks[k];dk.loopOn=!dk.loopOn;if(dk.loopOn)dk.loopStart=dk.absStep;$(`[data-loop="${k}"]`).classList.toggle("on",dk.loopOn);}
 function toggleEcho(k){const dk=decks[k];dk.echoOn=!dk.echoOn;dk.delay.delayTime.setTargetAtTime((60/dk.bpm)*0.75,AC.currentTime,0.02);dk.echoSend.gain.setTargetAtTime(dk.echoOn?0.6:0,AC.currentTime,0.02);$(`[data-echo="${k}"]`).classList.toggle("on",dk.echoOn);}
-function syncDeck(slaveK){const masterK=slaveK==="A"?"B":"A";const sl=decks[slaveK],ma=decks[masterK];if(!ma.playing){toast("SYNC: dá play na outra deck primeiro");return;}let pct=(ma.bpm/sl.baseBPM-1)*100;pct=Math.max(-8,Math.min(8,pct));setTempo(slaveK,pct);$(`#tempo${slaveK}`).value=pct;sl.absStep=ma.absStep;sl.nextNoteTime=ma.nextNoteTime;if(!sl.playing)setPlay(slaveK,true);sl.syncOn=true;$(`[data-sync="${slaveK}"]`).classList.add("on");toast(`SYNC: deck ${slaveK} sincronizada`);}
+function syncDeck(slaveK){const masterK=slaveK==="A"?"B":"A";const sl=decks[slaveK],ma=decks[masterK];if(!ma.playing){toast("SYNC: dá play na outra deck primeiro");return;}let pct=(ma.bpm/sl.baseBPM-1)*100;pct=Math.max(-8,Math.min(8,pct));setTempo(slaveK,pct);setFaderUI(`tempo${slaveK}`,pct);sl.absStep=ma.absStep;sl.nextNoteTime=ma.nextNoteTime;if(!sl.playing)setPlay(slaveK,true);sl.syncOn=true;$(`[data-sync="${slaveK}"]`).classList.add("on");toast(`SYNC: deck ${slaveK} sincronizada`);}
 function padHit(k,n){const pad=$(`[data-pad="${k}:${n}"]`);if(pad){pad.classList.add("lit");setTimeout(()=>pad.classList.remove("lit"),140);}const dk=decks[k];if(dk.mode==="file"&&dk.buffer){const i=+n-1;if(dk.cues[i]==null){dk.cues[i]=filepos(dk);toast("Hot cue "+n+" definido");}else{if(dk.playing){stopFile(dk);dk.offset=dk.cues[i];startFile(dk);}else{dk.offset=dk.cues[i];setPlay(k,true);}}drawWave(k);return;}if(n==="1")cue(k);else if(n==="2")fxVoice(decks[k].input);else if(n==="3")fxAirhorn(decks[k].input);else if(n==="4")fxRoll(decks[k].input);}
 
 /* ---------- gerador de faixas aleatórias ---------- */
@@ -630,10 +632,8 @@ function bindControls(){
   $("#pickerNew").onclick=()=>{closePicker();const inp=$(`#file${pickerDeck}`);if(inp)inp.click();};
   ["A","B"].forEach(k=>{const inp=$(`#file${k}`);if(inp)inp.addEventListener("change",e=>{if(e.target.files&&e.target.files[0])loadFile(k,e.target.files[0]);e.target.value="";});const wv=$(`#wave${k}`);if(wv){wv.addEventListener("click",e=>{const dk=decks[k];if(dk.mode!=="file"||!dk.dur)return;const r=wv.getBoundingClientRect();const x=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));if(dk.playing){stopFile(dk);dk.offset=x*dk.dur;startFile(dk);}else{dk.offset=x*dk.dur;}drawWave(k);});drawWave(k);}});
   $$("[data-pad]").forEach(b=>{const[k,n]=b.dataset.pad.split(":");b.onclick=()=>padHit(k,n);});
-  $("#volA").oninput=e=>setVol("A",+e.target.value);$("#volB").oninput=e=>setVol("B",+e.target.value);
-  $("#tempoA").oninput=e=>setTempo("A",+e.target.value);$("#tempoB").oninput=e=>setTempo("B",+e.target.value);
   $("#xfader").oninput=e=>setXfader(+e.target.value);
-  $$(".knob").forEach(initKnob);$$(".jog").forEach(initJog);
+  $$(".knob").forEach(initKnob);$$(".jog").forEach(initJog);$$(".fader").forEach(initFader);
   window.addEventListener("keydown",(e)=>{const tag=(e.target.tagName||"").toLowerCase();if(tag==="input"||tag==="textarea")return;const key=e.key.toLowerCase();const bend={z:["A",-1],x:["A",1],n:["B",-1],m:["B",1]};if(bend[key]){nudge(bend[key][0],bend[key][1]);return;}if(key==="arrowleft"){setXfader(Math.max(0,crossfade-0.05));e.preventDefault();return;}if(key==="arrowright"){setXfader(Math.min(1,crossfade+0.05));e.preventDefault();return;}if(e.repeat)return;if(key==="q")setPlay("A",!decks.A.playing);else if(key==="p")setPlay("B",!decks.B.playing);else if(key==="s")syncDeck("A");else if(key==="l")syncDeck("B");});
 }
 const KNOB={trim:{min:0,max:1.4,def:1,fmt:v=>Math.round(v*100)+"%",apply:(k,v)=>setTrim(k,v)},high:{min:-26,max:6,def:0,fmt:v=>(v>0?"+":"")+v.toFixed(0),apply:(k,v)=>setEQ(k,"high",v)},mid:{min:-26,max:6,def:0,fmt:v=>(v>0?"+":"")+v.toFixed(0),apply:(k,v)=>setEQ(k,"mid",v)},low:{min:-26,max:6,def:0,fmt:v=>(v>0?"+":"")+v.toFixed(0),apply:(k,v)=>setEQ(k,"low",v)},filter:{min:-1,max:1,def:0,fmt:v=>Math.abs(v)<0.03?"—":(v<0?"LP":"HP"),apply:(k,v)=>setFilter(k,v)},master:{min:0,max:1,def:0.85,fmt:v=>Math.round(v*100)+"%",apply:(k,v)=>setMaster(v)}};
@@ -641,6 +641,15 @@ const knobs={};
 function setKnob(id,v){if(knobs[id])knobs[id].set(v);}
 function initKnob(el){const[k,param]=el.dataset.knob.split(":");const cfg=KNOB[param];let val=cfg.def;function render(){const norm=(val-cfg.min)/(cfg.max-cfg.min);el.querySelector(".ind").style.transform=`translateX(-50%) rotate(${-135+norm*270}deg)`;if(param==="low"||param==="mid"||param==="high")el.classList.toggle("killed",val<=-22);$(`#v${k}${param}`).textContent=cfg.fmt(val);}function setV(v){val=Math.max(cfg.min,Math.min(cfg.max,v));cfg.apply(k,val);render();}let drag=false,sy=0,sv=0;const speed=(cfg.max-cfg.min)/150;el.addEventListener("pointerdown",e=>{drag=true;sy=e.clientY;sv=val;try{el.setPointerCapture(e.pointerId);}catch(_){}e.preventDefault();});el.addEventListener("pointermove",e=>{if(!drag)return;setV(sv+(sy-e.clientY)*speed);});el.addEventListener("pointerup",e=>{drag=false;try{el.releasePointerCapture(e.pointerId);}catch(_){}});el.addEventListener("pointercancel",()=>{drag=false;});el.addEventListener("dblclick",()=>setV(cfg.def));knobs[el.dataset.knob]={set:setV,reset:()=>setV(cfg.def),get:()=>val};cfg.apply(k,val);render();}
 function initJog(el){const k=el.dataset.jog;let drag=false,lastAng=0;function ang(e){const r=el.getBoundingClientRect();return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2));}el.addEventListener("pointerdown",e=>{drag=true;lastAng=ang(e);try{el.setPointerCapture(e.pointerId);}catch(_){}e.preventDefault();});el.addEventListener("pointermove",e=>{if(!drag)return;const a=ang(e);let dd=a-lastAng;if(dd>Math.PI)dd-=2*Math.PI;if(dd<-Math.PI)dd+=2*Math.PI;const dk=decks[k];if(dk.mode==="file"){if(dk.src){const r=1+dk.pitch/100,f=Math.max(-0.4,Math.min(0.4,dd*2.5));dk.src.playbackRate.setTargetAtTime(r*(1+f),AC.currentTime,0.01);}}else{dk.nextNoteTime-=dd*0.03;}if(dk.syncOn){dk.syncOn=false;$(`[data-sync="${k}"]`).classList.remove("on");}lastAng=a;});el.addEventListener("pointerup",e=>{drag=false;const dk=decks[k];if(dk.mode==="file"&&dk.src)dk.src.playbackRate.setTargetAtTime(1+dk.pitch/100,AC.currentTime,0.06);try{el.releasePointerCapture(e.pointerId);}catch(_){}});el.addEventListener("pointercancel",()=>{drag=false;});}
+
+/* Faders custom (vol/pitch): mesmo padrão Pointer Events + setPointerCapture dos jogs/knobs.
+   Substituem input[type=range] vertical, que só arrasta em Safari iOS >=17.4.
+   Mapeamento absoluto (toca/arrasta = thumb salta p/ o dedo). thumb posicionado via
+   calc(norm * (100% - thumbH)) — resolve no layout, sobrevive a resize/breakpoints. */
+const FADER={vol:{min:0,max:1,thumbH:16,apply:(k,v)=>setVol(k,v)},tempo:{min:-8,max:8,thumbH:13,apply:(k,v)=>setTempo(k,v)}};
+const faders={};
+function setFaderUI(id,v){if(faders[id])faders[id].setUI(v);}
+function initFader(el){const[k,param]=el.dataset.fader.split(":");const cfg=FADER[param];const thumb=el.querySelector(".thumb");let val=parseFloat(el.dataset.val);if(isNaN(val))val=cfg.min;function renderUI(){const norm=(val-cfg.min)/(cfg.max-cfg.min);thumb.style.bottom=`calc(${norm} * (100% - ${cfg.thumbH}px))`;}function yToVal(e){const r=el.getBoundingClientRect();let norm=1-(e.clientY-r.top)/r.height;norm=Math.max(0,Math.min(1,norm));return cfg.min+norm*(cfg.max-cfg.min);}function setV(v,fire){val=Math.max(cfg.min,Math.min(cfg.max,v));renderUI();if(fire)cfg.apply(k,val);}let drag=false;el.addEventListener("pointerdown",e=>{drag=true;setV(yToVal(e),true);try{el.setPointerCapture(e.pointerId);}catch(_){}e.preventDefault();});el.addEventListener("pointermove",e=>{if(!drag)return;setV(yToVal(e),true);});el.addEventListener("pointerup",e=>{drag=false;try{el.releasePointerCapture(e.pointerId);}catch(_){}});el.addEventListener("pointercancel",()=>{drag=false;});faders[el.id]={setUI:v=>setV(v,false),get:()=>val};renderUI();}
 
 /* ===================== RENDER LOOP ===================== */
 const scopeCtx=$("#scope").getContext("2d");let vuPeak=0;
@@ -751,7 +760,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http")===0){
   addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
 $("#hudX").onclick=()=>{hudDrill=null;$("#hud").classList.remove("show");};
-function resetMesa(){if(!AC)return;for(const k of["A","B"]){const dk=decks[k];setPlay(k,false);dk.absStep=0;dk.loopOn=false;dk.echoOn=false;dk.syncOn=false;$(`[data-loop="${k}"]`).classList.remove("on");$(`[data-echo="${k}"]`).classList.remove("on");$(`[data-sync="${k}"]`).classList.remove("on");if(dk.echoSend)dk.echoSend.gain.setTargetAtTime(0,AC.currentTime,0.02);setVol(k,0.8);$(`#vol${k}`).value=0.8;setTempo(k,0);$(`#tempo${k}`).value=0;}setXfader(0);["A:trim","B:trim"].forEach(id=>setKnob(id,0.6));["A:low","A:mid","A:high","B:low","B:mid","B:high","A:filter","B:filter"].forEach(id=>setKnob(id,0));setKnob("M:master",0.85);hudDrill=null;$("#hud").classList.remove("show");}
+function resetMesa(){if(!AC)return;for(const k of["A","B"]){const dk=decks[k];setPlay(k,false);dk.absStep=0;dk.loopOn=false;dk.echoOn=false;dk.syncOn=false;$(`[data-loop="${k}"]`).classList.remove("on");$(`[data-echo="${k}"]`).classList.remove("on");$(`[data-sync="${k}"]`).classList.remove("on");if(dk.echoSend)dk.echoSend.gain.setTargetAtTime(0,AC.currentTime,0.02);setVol(k,0.8);setFaderUI(`vol${k}`,0.8);setTempo(k,0);setFaderUI(`tempo${k}`,0);}setXfader(0);["A:trim","B:trim"].forEach(id=>setKnob(id,0.6));["A:low","A:mid","A:high","B:low","B:mid","B:high","A:filter","B:filter"].forEach(id=>setKnob(id,0));setKnob("M:master",0.85);hudDrill=null;$("#hud").classList.remove("show");}
 $("#resetBtn").onclick=()=>{completedDrills.clear();completedQuiz.clear();score=0;curMod=0;resetMesa();renderModule();renderGlossary();renderCamelot();renderPlan();updateProgress();toast("Progresso e mesa reiniciados");};
 let toastT=null;function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove("show"),2000);}
 </script>
