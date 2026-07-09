@@ -11,6 +11,8 @@ Simulador local de uma **controladora de DJ de 2 decks** (estilo Numark Party Mi
 - Transporte por deck: **PLAY / CUE / SYNC**, **LOOP**, **ECHO** e 4 performance pads
 - Medidor de nível por canal e scope de fase (para beatmatch)
 - **⟳ NOVA**: gera uma faixa aleatória na hora (padrão + BPM + tom Camelot) — treino sem esperas
+- **🏠 Sons da casa**: 6 faixas de treino incluídas (`tracks/`), com **BPM e tom Camelot reais** no manifesto — escolhidas para praticar mistura harmónica. São faixas **originais sintetizadas por código** para este projecto (sem música de terceiros).
+- **💾 A minha crate**: os MP3 que carregas ficam **guardados no browser** (IndexedDB) com BPM e duração — carrega 1 vez, fica disponível offline. No iPhone, instala a app no ecrã principal (PWA), senão o Safari limpa o armazenamento ao fim de 7 dias sem uso.
 - **📁 MP3**: carrega áudio teu → **waveform real**, playhead, **4 hot cues** clicáveis, BPM estimado, scratch/pitch-bend no prato
 - **Ecrã inteiro** e **layout responsivo** (funciona no telemóvel, por toque)
 

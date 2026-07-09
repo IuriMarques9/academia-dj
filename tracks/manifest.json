@@ -1,0 +1,46 @@
+{
+  "tracks": [
+    {
+      "file": "meia-noite.mp3",
+      "title": "Meia-Noite",
+      "bpm": 120,
+      "key": "8A",
+      "dur": 130
+    },
+    {
+      "file": "neon-algarve.mp3",
+      "title": "Neon Algarve",
+      "bpm": 122,
+      "key": "9A",
+      "dur": 128
+    },
+    {
+      "file": "duna.mp3",
+      "title": "Duna",
+      "bpm": 124,
+      "key": "8B",
+      "dur": 126
+    },
+    {
+      "file": "mares.mp3",
+      "title": "Marés",
+      "bpm": 124,
+      "key": "5A",
+      "dur": 126
+    },
+    {
+      "file": "farol.mp3",
+      "title": "Farol",
+      "bpm": 126,
+      "key": "9B",
+      "dur": 124
+    },
+    {
+      "file": "sirocco.mp3",
+      "title": "Sirocco",
+      "bpm": 128,
+      "key": "12A",
+      "dur": 122
+    }
+  ]
+}

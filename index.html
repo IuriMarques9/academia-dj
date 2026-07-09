@@ -198,6 +198,24 @@
   .dock.fakefull{position:fixed;inset:0;z-index:50;background:#07080a;overflow:auto;display:flex;flex-direction:column;justify-content:safe center;padding:calc(2vh + env(safe-area-inset-top)) calc(3vw + env(safe-area-inset-right)) calc(2vh + env(safe-area-inset-bottom)) calc(3vw + env(safe-area-inset-left));}
   .dock.fakefull .controller{max-width:1400px;}
   body.fs-lock{overflow:hidden;}
+  /* ===== PICKER: sons da casa + crate ===== */
+  .picker{position:fixed;inset:0;background:rgba(5,6,9,.82);display:none;place-items:center;z-index:52;padding:12px;}
+  .picker.show{display:grid;}
+  .pcard{background:#0e0f16;border:1px solid var(--edge);border-radius:14px;width:min(460px,94vw);max-height:84vh;max-height:84dvh;overflow:auto;overscroll-behavior:contain;padding:14px 14px 12px;box-shadow:0 18px 60px #000c;}
+  body.pk-lock{overflow:hidden;}
+  .phead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .phead b{font-size:14px;}
+  .phead .x{cursor:pointer;color:var(--dim);font-size:15px;padding:4px 8px;}
+  .psec{font-size:11px;color:var(--dim);letter-spacing:.8px;text-transform:uppercase;margin:10px 0 4px;}
+  .prow{display:flex;align-items:center;gap:10px;padding:10px 11px;border:1px solid var(--edge);border-radius:10px;margin:6px 0;cursor:pointer;background:#12131b;}
+  .prow:active,.prow:hover{border-color:var(--cyan);}
+  .prow .nm{flex:1;font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .prow small{color:var(--dim);font-size:11px;white-space:nowrap;}
+  .prow .pdel{color:var(--dim);padding:2px 7px;border-radius:6px;}
+  .prow .pdel:hover{color:#ff5d5d;}
+  .pempty{color:var(--dim);font-size:12px;padding:6px 2px;}
+  .pnote{font-size:10px;color:var(--dim);margin-top:4px;line-height:1.45;}
+  .pnew{width:100%;margin-top:10px;background:linear-gradient(90deg,var(--cyan),var(--mag));color:#06070b;border:0;padding:11px;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px;}
   /* ===== MOBILE ===== */
   @media(max-width:600px){
     header{flex-wrap:wrap;gap:8px;padding:10px 14px;}
@@ -447,6 +465,13 @@
 </div>
 
 <div class="hud" id="hud"><span class="ddot" id="hudDot"></span><div><div class="htext" id="hudText"></div><div class="hstat" id="hudStat"></div></div><span class="x" id="hudX">✕</span></div>
+<div class="picker" id="picker"><div class="pcard">
+  <div class="phead"><b id="pickerTitle">Carregar música</b><span class="x" id="pickerX">✕</span></div>
+  <div class="psec">🏠 Sons da casa</div><div id="pkHouse"></div>
+  <div class="psec">💾 A minha crate</div><div id="pkCrate"></div>
+  <div class="pnote">📱 iPhone: instala a app no ecrã principal — senão o Safari apaga a crate ao fim de 7 dias sem uso.</div>
+  <button class="pnew" id="pickerNew">📂 Carregar ficheiro novo…</button>
+</div></div>
 <div class="toast" id="toast"></div>
 
 <script src="curriculum.js"></script>
@@ -457,7 +482,7 @@ const C=window.CURRICULUM;
 
 /* ===================== ÁUDIO ENGINE ===================== */
 let AC=null,master,masterComp,analyser,noiseBuf=null;
-function makeDeck(name,baseBPM){return{name,baseBPM,bpm:baseBPM,pitch:0,playing:false,absStep:0,nextNoteTime:0,vol:0.8,eq:{low:0,mid:0,high:0},trim:0.6,filter:0,syncOn:false,loopOn:false,loopStart:0,loopLen:4,echoOn:false,input:null,fxHP:null,fxLP:null,low:null,mid:null,high:null,ch:null,xg:null,echoSend:null,delay:null,fb:null,wet:null,pattern:null,mode:"synth",buffer:null,src:null,srcStart:0,offset:0,dur:0,peaks:null,cues:[null,null,null,null],fileBaseBPM:0};}
+function makeDeck(name,baseBPM){return{name,baseBPM,bpm:baseBPM,pitch:0,playing:false,absStep:0,nextNoteTime:0,vol:0.8,eq:{low:0,mid:0,high:0},trim:0.6,filter:0,syncOn:false,loopOn:false,loopStart:0,loopLen:4,echoOn:false,input:null,fxHP:null,fxLP:null,low:null,mid:null,high:null,ch:null,xg:null,echoSend:null,delay:null,fb:null,wet:null,pattern:null,mode:"synth",buffer:null,src:null,srcStart:0,offset:0,dur:0,peaks:null,cues:[null,null,null,null],fileBaseBPM:0,loadSeq:0};}
 const decks={A:makeDeck("A",124),B:makeDeck("B",120)};
 let crossfade=0,masterVol=0.85;
 const midi=(m)=>440*Math.pow(2,(m-69)/12);
@@ -556,9 +581,39 @@ function estimateBPM(buffer){const ch=buffer.getChannelData(0),sr=buffer.sampleR
 function filepos(dk){if(!dk.dur)return 0;if(!dk.src)return dk.offset%dk.dur;const rate=dk.src.playbackRate.value;return (dk.offset+(AC.currentTime-dk.srcStart)*rate)%dk.dur;}
 function startFile(dk){if(!dk.buffer)return;if(dk.src){try{dk.src.stop();}catch(e){}}const s=AC.createBufferSource();s.buffer=dk.buffer;s.loop=true;s.playbackRate.value=1+dk.pitch/100;s.connect(dk.input);s.start(0,dk.offset%dk.dur);dk.src=s;dk.srcStart=AC.currentTime;}
 function stopFile(dk){if(dk.src){dk.offset=filepos(dk);try{dk.src.stop();}catch(e){}dk.src=null;}}
-function loadFile(k,file){if(!AC){toast("Liga a mesa primeiro");return;}const dk=decks[k];const fr=new FileReader();fr.onload=()=>{AC.decodeAudioData(fr.result.slice(0)).then(buf=>{stopFile(dk);dk.mode="file";dk.buffer=buf;dk.dur=buf.duration;dk.peaks=computePeaks(buf,600);dk.offset=0;dk.cues=[null,null,null,null];dk.fileBaseBPM=estimateBPM(buf);dk.bpm=dk.fileBaseBPM*(1+dk.pitch/100);$(`#track${k}`).textContent=file.name.replace(/\.[^.]+$/,"");$(`#key${k}`).textContent="♪ MP3";drawWave(k);if(dk.playing)startFile(dk);toast(`${file.name} · ~${Math.round(dk.fileBaseBPM)} BPM`);}).catch(()=>toast("Não consegui ler esse áudio"));};fr.readAsArrayBuffer(file);}
+function applyBuffer(k,buf,name,bpm,key){const dk=decks[k];stopFile(dk);dk.mode="file";dk.buffer=buf;dk.dur=buf.duration;dk.peaks=computePeaks(buf,600);dk.offset=0;dk.cues=[null,null,null,null];dk.fileBaseBPM=bpm||estimateBPM(buf);dk.bpm=dk.fileBaseBPM*(1+dk.pitch/100);if(dk.syncOn){dk.syncOn=false;$(`[data-sync="${k}"]`).classList.remove("on");}$(`#track${k}`).textContent=name;$(`#key${k}`).textContent=key||"♪ MP3";drawWave(k);if(dk.playing)startFile(dk);}
+function loadFile(k,file){if(!AC){toast("Liga a mesa primeiro");return;}const dk=decks[k];const seq=++dk.loadSeq;const fr=new FileReader();fr.onload=()=>{const ab=fr.result;AC.decodeAudioData(ab.slice(0)).then(buf=>{if(seq!==dk.loadSeq)return;const name=file.name.replace(/\.[^.]+$/,"");applyBuffer(k,buf,name,null,null);toast(`${file.name} · ~${Math.round(dk.fileBaseBPM)} BPM`);crateList().then(list=>{if(list.some(m=>m.name===name&&m.size===file.size))return;return crateSave({name,size:file.size,bpm:dk.fileBaseBPM,dur:buf.duration,addedAt:Date.now()},ab).then(()=>{toast(`💾 Guardada na crate: ${name}`);if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});});}).catch(err=>toast(err&&err.name==="QuotaExceededError"?"Sem espaço no telemóvel — a música toca, mas não ficou guardada":"Crate indisponível neste browser — a música toca na mesma"));}).catch(()=>{if(seq===dk.loadSeq)toast("Não consegui ler esse áudio");});};fr.readAsArrayBuffer(file);}
 function drawWave(k){const cv=$(`#wave${k}`);if(!cv)return;const c=cv.getContext("2d"),W=cv.width,H=cv.height,mid=H/2,dk=decks[k];c.clearRect(0,0,W,H);c.fillStyle="#0d0e14";c.fillRect(0,0,W,H);if(!dk.peaks){c.fillStyle="#3a3f55";c.font="10px Segoe UI";c.textAlign="center";c.fillText("📁 carrega um MP3 teu",W/2,mid+3);return;}const col=k==="A"?"#27e1ff":"#ff3ea5";const n=dk.peaks.length;c.fillStyle=col;c.globalAlpha=0.85;for(let x=0;x<W;x++){const p=dk.peaks[Math.floor(x/W*n)]||0;const bar=Math.max(1,p*H*0.92);c.fillRect(x,mid-bar/2,1,bar);}c.globalAlpha=1;const cc=["#ffd23e","#39e58c","#ff8a3e","#c58aff"];dk.cues.forEach((cu,i)=>{if(cu==null)return;const x=cu/dk.dur*W;c.fillStyle=cc[i];c.fillRect(x-1,0,2,H);c.fillRect(x-3,0,7,4);});if(dk.dur){const x=filepos(dk)/dk.dur*W;c.fillStyle="#fff";c.fillRect(x-1,0,2,H);}}
 function deckBar(dk){if(!dk.dur||!dk.bpm)return 0;const beat=60/dk.bpm;return((((filepos(dk)/beat)%4)+4)%4)/4;}
+
+/* ---------- Crate (IndexedDB): biblioteca persistente por telemóvel ---------- */
+let dbP=null;
+function crateDB(){if(dbP)return dbP;dbP=new Promise((res,rej)=>{if(!("indexedDB" in window)){rej(new Error("sem IndexedDB"));return;}const r=indexedDB.open("dj-academy",1);r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains("meta"))d.createObjectStore("meta",{keyPath:"id",autoIncrement:true});if(!d.objectStoreNames.contains("audio"))d.createObjectStore("audio",{keyPath:"id"});};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});dbP.catch(()=>{dbP=null;});return dbP;}
+function crateList(){return crateDB().then(d=>new Promise((res,rej)=>{const q=d.transaction("meta").objectStore("meta").getAll();q.onsuccess=()=>res(q.result||[]);q.onerror=()=>rej(q.error);})).catch(()=>[]);}
+function crateSave(meta,data){return crateDB().then(d=>new Promise((res,rej)=>{const t=d.transaction(["meta","audio"],"readwrite");t.oncomplete=()=>res(true);t.onerror=t.onabort=()=>rej(t.error||new Error("tx falhou"));const q=t.objectStore("meta").add(meta);q.onsuccess=()=>{t.objectStore("audio").put({id:q.result,data});};}));}
+function crateGet(id){return crateDB().then(d=>new Promise((res,rej)=>{const q=d.transaction("audio").objectStore("audio").get(id);q.onsuccess=()=>res(q.result?q.result.data:null);q.onerror=()=>rej(q.error);}));}
+function crateDel(id){return crateDB().then(d=>new Promise((res,rej)=>{const t=d.transaction(["meta","audio"],"readwrite");t.oncomplete=()=>res(true);t.onerror=t.onabort=()=>rej(t.error||new Error("tx falhou"));t.objectStore("meta").delete(id);t.objectStore("audio").delete(id);}));}
+
+/* ---------- Sons da casa (tracks/ no repo — BPM e tom Camelot reais) ---------- */
+let houseTracks=[],manifestP=null;
+function fetchManifest(){if(!manifestP)manifestP=fetch("tracks/manifest.json").then(r=>r.json()).then(j=>{houseTracks=j.tracks||[];return houseTracks;}).catch(()=>{manifestP=null;return[];});return manifestP;}
+function loadHouse(k,t){if(!AC){toast("Liga a mesa primeiro");return;}const dk=decks[k];const seq=++dk.loadSeq;toast(`A carregar ${t.title}…`);fetch(`tracks/${t.file}`).then(r=>{if(!r.ok)throw 0;return r.arrayBuffer();}).then(ab=>AC.decodeAudioData(ab)).then(buf=>{if(seq!==dk.loadSeq)return;applyBuffer(k,buf,t.title,t.bpm,t.key);toast(`${t.title} · ${t.bpm} BPM · ${t.key}`);}).catch(()=>{if(seq===dk.loadSeq)toast("Não consegui carregar (offline e ainda sem cache?)");});}
+function loadCrate(k,m){if(!AC){toast("Liga a mesa primeiro");return;}const dk=decks[k];const seq=++dk.loadSeq;crateGet(m.id).then(ab=>{if(!ab)throw 0;return AC.decodeAudioData(ab);}).then(buf=>{if(seq!==dk.loadSeq)return;applyBuffer(k,buf,m.name,m.bpm,null);toast(`${m.name} · ~${Math.round(m.bpm)} BPM`);}).catch(()=>{if(seq===dk.loadSeq)toast("Não consegui ler da crate");});}
+
+/* ---------- Picker (modal por deck) ---------- */
+let pickerDeck="A";
+const escHtml=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmtDur=s=>{if(!s)return"";const t=Math.round(s);return Math.floor(t/60)+":"+String(t%60).padStart(2,"0");};
+function openPicker(k){pickerDeck=k;$("#pickerTitle").textContent=`Deck ${k} · carregar música`;$("#picker").classList.add("show");document.body.classList.add("pk-lock");renderPicker();fetchManifest().then(renderPicker);}
+function closePicker(){$("#picker").classList.remove("show");document.body.classList.remove("pk-lock");}
+function renderPicker(){
+  const h=$("#pkHouse");h.textContent="";
+  if(!houseTracks.length)h.innerHTML='<div class="pempty">a obter a lista… (precisa de net na 1ª vez)</div>';
+  houseTracks.forEach(t=>{const r=document.createElement("div");r.className="prow";r.innerHTML=`<span class="nm">${escHtml(t.title)}</span><small>${+t.bpm||"?"} BPM · ${escHtml(t.key)} · ${fmtDur(t.dur)}</small>`;r.onclick=()=>{closePicker();loadHouse(pickerDeck,t);};h.appendChild(r);});
+  const c=$("#pkCrate");c.innerHTML='<div class="pempty">…</div>';
+  crateList().then(list=>{c.textContent="";if(!list.length){c.innerHTML='<div class="pempty">vazia — carrega um ficheiro novo e fica aqui guardado</div>';return;}list.sort((a,b)=>(b.id||0)-(a.id||0)).forEach(m=>{const r=document.createElement("div");r.className="prow";r.innerHTML=`<span class="nm">${escHtml(m.name)}</span><small>~${Math.round(m.bpm)} BPM · ${fmtDur(m.dur)}</small><span class="pdel" title="tirar da crate">✕</span>`;r.onclick=()=>{closePicker();loadCrate(pickerDeck,m);};r.querySelector(".pdel").onclick=e=>{e.stopPropagation();crateDel(m.id).then(()=>{toast(`Apagada da crate: ${m.name}`);renderPicker();});};c.appendChild(r);});});
+}
+fetchManifest();
 
 /* ===================== UI controlos ===================== */
 function bindControls(){
@@ -568,7 +623,10 @@ function bindControls(){
   $$("[data-loop]").forEach(b=>b.onclick=()=>toggleLoop(b.dataset.loop));
   $$("[data-echo]").forEach(b=>b.onclick=()=>toggleEcho(b.dataset.echo));
   $$("[data-load]").forEach(b=>b.onclick=()=>loadTrack(b.dataset.load));
-  $$("[data-file]").forEach(b=>b.onclick=()=>{const inp=$(`#file${b.dataset.file}`);if(inp)inp.click();});
+  $$("[data-file]").forEach(b=>b.onclick=()=>openPicker(b.dataset.file));
+  $("#pickerX").onclick=closePicker;
+  $("#picker").addEventListener("click",e=>{if(e.target.id==="picker")closePicker();});
+  $("#pickerNew").onclick=()=>{closePicker();const inp=$(`#file${pickerDeck}`);if(inp)inp.click();};
   ["A","B"].forEach(k=>{const inp=$(`#file${k}`);if(inp)inp.addEventListener("change",e=>{if(e.target.files&&e.target.files[0])loadFile(k,e.target.files[0]);e.target.value="";});const wv=$(`#wave${k}`);if(wv){wv.addEventListener("click",e=>{const dk=decks[k];if(dk.mode!=="file"||!dk.dur)return;const r=wv.getBoundingClientRect();const x=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));if(dk.playing){stopFile(dk);dk.offset=x*dk.dur;startFile(dk);}else{dk.offset=x*dk.dur;}drawWave(k);});drawWave(k);}});
   $$("[data-pad]").forEach(b=>{const[k,n]=b.dataset.pad.split(":");b.onclick=()=>padHit(k,n);});
   $("#volA").oninput=e=>setVol("A",+e.target.value);$("#volB").oninput=e=>setVol("B",+e.target.value);
