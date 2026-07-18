@@ -33,7 +33,7 @@
   .dock-bar .t{font-size:11px;letter-spacing:1px;color:var(--dim);text-transform:uppercase;}
   .dock-bar button{background:#15161f;border:1px solid var(--edge);color:var(--dim);font-size:11px;padding:6px 11px;border-radius:7px;cursor:pointer;touch-action:manipulation;}
   .controller{max-width:1100px;margin:0 auto;position:relative;border-radius:24px;padding:26px 24px 32px;display:grid;grid-template-columns:1fr 290px 1fr;gap:18px;
-    touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+    touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
     background:linear-gradient(180deg,#202329,#0c0d11),repeating-linear-gradient(90deg,#ffffff04 0 2px,#0000 2px 5px);
     border:1px solid #3a3f52;border-top-color:#525873;box-shadow:0 30px 60px #000b,inset 0 1px 0 #ffffff14,inset 0 -4px 18px #0009;}
   .controller::after{content:"";position:absolute;inset:7px;border-radius:19px;pointer-events:none;box-shadow:inset 0 0 0 1px #ffffff08;}
@@ -194,13 +194,21 @@
   kbd{background:#0c0d14;border:1px solid var(--edge);border-bottom-width:2px;border-radius:5px;padding:1px 6px;font-size:11px;}
   .foot{max-width:1040px;margin:8px auto 0;font-size:11px;color:var(--dim);text-align:center;line-height:1.7;}
   /* ===== FULLSCREEN ===== */
-  .dock:fullscreen,.dock:-webkit-full-screen{background:#07080a;height:100vh;width:100vw;overflow-x:hidden;overflow-y:auto;overscroll-behavior:none;display:flex;flex-direction:column;justify-content:safe center;padding:2vh 3vw;}
+  .dock:fullscreen,.dock:-webkit-full-screen{background:#07080a;height:100vh;width:100vw;overflow-x:hidden;overflow-y:auto;overscroll-behavior:none;display:flex;flex-direction:column;justify-content:safe center;padding:2px 2vw;}
   .dock:fullscreen .controller,.dock:-webkit-full-screen .controller{max-width:1400px;}
   /* iPhone: Safari iOS não tem Fullscreen API em divs → "fake fullscreen" por CSS.
      justify-content só com `safe` — sem ele, centrar conteúdo mais alto que o ecrã corta o topo. */
-  .dock.fakefull{position:fixed;inset:0;z-index:50;background:#07080a;overflow-x:hidden;overflow-y:auto;overscroll-behavior:none;display:flex;flex-direction:column;justify-content:safe center;padding:calc(2vh + env(safe-area-inset-top)) calc(3vw + env(safe-area-inset-right)) calc(2vh + env(safe-area-inset-bottom)) calc(3vw + env(safe-area-inset-left));}
+  .dock.fakefull{position:fixed;inset:0;z-index:50;background:#07080a;overflow-x:hidden;overflow-y:auto;overscroll-behavior:none;display:flex;flex-direction:column;justify-content:safe center;padding:calc(2px + env(safe-area-inset-top)) calc(2vw + env(safe-area-inset-right)) calc(2px + env(safe-area-inset-bottom)) calc(2vw + env(safe-area-inset-left));}
   .dock.fakefull .controller{max-width:1400px;}
   body.fs-lock{overflow:hidden;}
+  /* Em ecrã inteiro, a barra do topo flutua (só o botão Sair) para a mesa usar a altura
+     toda e caber sem transbordar — senão o fundo (x-fader/VU) ficava cortado e, com
+     touch-action:none, inalcançável. Vale p/ fakefull (iOS) e :fullscreen (Android/PC). */
+  .dock.fakefull .dock-bar,.dock:fullscreen .dock-bar,.dock:-webkit-full-screen .dock-bar{position:fixed;top:calc(3px + env(safe-area-inset-top));right:calc(4px + env(safe-area-inset-right));margin:0;width:auto;z-index:3;}
+  .dock.fakefull .dock-bar .t,.dock:fullscreen .dock-bar .t,.dock:-webkit-full-screen .dock-bar .t{display:none;}
+  .dock.fakefull #toggleDock,.dock:fullscreen #toggleDock,.dock:-webkit-full-screen #toggleDock{display:none;}
+  /* botão Sair = ícone compacto no canto, à direita dos pads do deck B; fundo p/ contraste */
+  .dock.fakefull #fsBtn,.dock:fullscreen #fsBtn,.dock:-webkit-full-screen #fsBtn{padding:6px 8px;font-size:14px;line-height:1;background:#15161fdd;border-color:#4a5067;color:#cfd2e4;}
   /* ===== PICKER: sons da casa + crate ===== */
   .picker{position:fixed;inset:0;background:rgba(5,6,9,.82);display:none;place-items:center;z-index:52;padding:12px;}
   .picker.show{display:grid;}
@@ -254,7 +262,7 @@
      Landscape em ecrã baixo (telemóvel deitado): mesa completa em 3 colunas, compactada. */
   @media(orientation:landscape) and (max-height:540px){
     .dock{padding:6px 8px 4px;}
-    .controller{grid-template-columns:1fr 240px 1fr;gap:10px;padding:10px 10px 16px;}
+    .controller{grid-template-columns:1fr 240px 1fr;gap:10px;padding:2px 10px 4px;}
     /* Display de mesa real: knobs empilhados na vertical por canal (CH1 | centro | CH2),
        master em cima ao centro, faders/x-fader/VU no meio. */
     .mixer{display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto auto 1fr;gap:6px 8px;align-items:start;}
@@ -268,7 +276,7 @@
     .vu{grid-column:2;grid-row:4;align-self:end;}
     .brand{display:none;}
     /* Fluxo de controladora real: pads/sliders em cima, jog, e botões em filas horizontais por baixo. */
-    .deck{gap:6px;}
+    .deck{gap:4px;}
     .deck-top{gap:6px;}
     .sidecol{width:40px;}
     .jog{width:96px;height:96px;border-width:4px;}
@@ -636,10 +644,13 @@ function bindControls(){
   $$(".knob").forEach(initKnob);$$(".jog").forEach(initJog);$$(".fader").forEach(initFader);
   window.addEventListener("keydown",(e)=>{const tag=(e.target.tagName||"").toLowerCase();if(tag==="input"||tag==="textarea")return;const key=e.key.toLowerCase();const bend={z:["A",-1],x:["A",1],n:["B",-1],m:["B",1]};if(bend[key]){nudge(bend[key][0],bend[key][1]);return;}if(key==="arrowleft"){setXfader(Math.max(0,crossfade-0.05));e.preventDefault();return;}if(key==="arrowright"){setXfader(Math.min(1,crossfade+0.05));e.preventDefault();return;}if(e.repeat)return;if(key==="q")setPlay("A",!decks.A.playing);else if(key==="p")setPlay("B",!decks.B.playing);else if(key==="s")syncDeck("A");else if(key==="l")syncDeck("B");});
 }
-const KNOB={trim:{min:0,max:1.4,def:1,fmt:v=>Math.round(v*100)+"%",apply:(k,v)=>setTrim(k,v)},high:{min:-26,max:6,def:0,fmt:v=>(v>0?"+":"")+v.toFixed(0),apply:(k,v)=>setEQ(k,"high",v)},mid:{min:-26,max:6,def:0,fmt:v=>(v>0?"+":"")+v.toFixed(0),apply:(k,v)=>setEQ(k,"mid",v)},low:{min:-26,max:6,def:0,fmt:v=>(v>0?"+":"")+v.toFixed(0),apply:(k,v)=>setEQ(k,"low",v)},filter:{min:-1,max:1,def:0,fmt:v=>Math.abs(v)<0.03?"—":(v<0?"LP":"HP"),apply:(k,v)=>setFilter(k,v)},master:{min:0,max:1,def:0.85,fmt:v=>Math.round(v*100)+"%",apply:(k,v)=>setMaster(v)}};
+const KNOB={trim:{min:0,max:1.4,def:1,fmt:v=>Math.round(v*100)+"%",apply:(k,v)=>setTrim(k,v)},high:{min:-26,max:6,def:0,fmt:v=>(v>0?"+":"")+v.toFixed(0),apply:(k,v)=>setEQ(k,"high",v)},mid:{min:-26,max:6,def:0,fmt:v=>(v>0?"+":"")+v.toFixed(0),apply:(k,v)=>setEQ(k,"mid",v)},low:{min:-26,max:6,def:0,fmt:v=>(v>0?"+":"")+v.toFixed(0),apply:(k,v)=>setEQ(k,"low",v)},filter:{min:-1,max:1,def:0,fmt:v=>Math.abs(v)<0.03?"—":(v<0?"LP":"HP"),apply:(k,v)=>setFilter(k,v)},master:{min:0,max:1,def:0.85,linear:true,fmt:v=>Math.round(v*100)+"%",apply:(k,v)=>setMaster(v)}};
+/* Ângulo do indicador: knobs com detente (EQ/filtro/gain) têm o NEUTRO ao meio (12h=0°),
+   metade esquerda -135°..0 (cortar), metade direita 0..+135° (aumentar). Master = linear (volume). */
+function knobAngle(cfg,val){if(cfg.linear){return -135+(val-cfg.min)/(cfg.max-cfg.min)*270;}if(val>=cfg.def){const t=cfg.max===cfg.def?0:(val-cfg.def)/(cfg.max-cfg.def);return t*135;}const t=cfg.def===cfg.min?0:(cfg.def-val)/(cfg.def-cfg.min);return -t*135;}
 const knobs={};
 function setKnob(id,v){if(knobs[id])knobs[id].set(v);}
-function initKnob(el){const[k,param]=el.dataset.knob.split(":");const cfg=KNOB[param];let val=cfg.def;function render(){const norm=(val-cfg.min)/(cfg.max-cfg.min);el.querySelector(".ind").style.transform=`translateX(-50%) rotate(${-135+norm*270}deg)`;if(param==="low"||param==="mid"||param==="high")el.classList.toggle("killed",val<=-22);$(`#v${k}${param}`).textContent=cfg.fmt(val);}function setV(v){val=Math.max(cfg.min,Math.min(cfg.max,v));cfg.apply(k,val);render();}let drag=false,sy=0,sv=0;const speed=(cfg.max-cfg.min)/150;el.addEventListener("pointerdown",e=>{drag=true;sy=e.clientY;sv=val;try{el.setPointerCapture(e.pointerId);}catch(_){}e.preventDefault();});el.addEventListener("pointermove",e=>{if(!drag)return;setV(sv+(sy-e.clientY)*speed);});el.addEventListener("pointerup",e=>{drag=false;try{el.releasePointerCapture(e.pointerId);}catch(_){}});el.addEventListener("pointercancel",()=>{drag=false;});el.addEventListener("dblclick",()=>setV(cfg.def));knobs[el.dataset.knob]={set:setV,reset:()=>setV(cfg.def),get:()=>val};cfg.apply(k,val);render();}
+function initKnob(el){const[k,param]=el.dataset.knob.split(":");const cfg=KNOB[param];let val=cfg.def;function render(){el.querySelector(".ind").style.transform=`translateX(-50%) rotate(${knobAngle(cfg,val)}deg)`;if(param==="low"||param==="mid"||param==="high")el.classList.toggle("killed",val<=-22);$(`#v${k}${param}`).textContent=cfg.fmt(val);}function setV(v){val=Math.max(cfg.min,Math.min(cfg.max,v));cfg.apply(k,val);render();}let drag=false,sy=0,sv=0;const speed=(cfg.max-cfg.min)/150;el.addEventListener("pointerdown",e=>{drag=true;sy=e.clientY;sv=val;try{el.setPointerCapture(e.pointerId);}catch(_){}e.preventDefault();});el.addEventListener("pointermove",e=>{if(!drag)return;setV(sv+(sy-e.clientY)*speed);});el.addEventListener("pointerup",e=>{drag=false;try{el.releasePointerCapture(e.pointerId);}catch(_){}});el.addEventListener("pointercancel",()=>{drag=false;});el.addEventListener("dblclick",()=>setV(cfg.def));knobs[el.dataset.knob]={set:setV,reset:()=>setV(cfg.def),get:()=>val};cfg.apply(k,val);render();}
 function initJog(el){const k=el.dataset.jog;let drag=false,lastAng=0;function ang(e){const r=el.getBoundingClientRect();return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2));}el.addEventListener("pointerdown",e=>{drag=true;lastAng=ang(e);try{el.setPointerCapture(e.pointerId);}catch(_){}e.preventDefault();});el.addEventListener("pointermove",e=>{if(!drag)return;const a=ang(e);let dd=a-lastAng;if(dd>Math.PI)dd-=2*Math.PI;if(dd<-Math.PI)dd+=2*Math.PI;const dk=decks[k];if(dk.mode==="file"){if(dk.src){const r=1+dk.pitch/100,f=Math.max(-0.4,Math.min(0.4,dd*2.5));dk.src.playbackRate.setTargetAtTime(r*(1+f),AC.currentTime,0.01);}}else{dk.nextNoteTime-=dd*0.03;}if(dk.syncOn){dk.syncOn=false;$(`[data-sync="${k}"]`).classList.remove("on");}lastAng=a;});el.addEventListener("pointerup",e=>{drag=false;const dk=decks[k];if(dk.mode==="file"&&dk.src)dk.src.playbackRate.setTargetAtTime(1+dk.pitch/100,AC.currentTime,0.06);try{el.releasePointerCapture(e.pointerId);}catch(_){}});el.addEventListener("pointercancel",()=>{drag=false;});}
 
 /* Faders custom (vol/pitch): mesmo padrão Pointer Events + setPointerCapture dos jogs/knobs.
@@ -752,9 +763,9 @@ function startAcademy(){
 }
 $("#startBtn").onclick=async()=>{buildAudio();if(AC.state==="suspended")await AC.resume();$("#overlay").style.display="none";bindControls();startAcademy();render();};
 $("#toggleDock").onclick=()=>{const c=$("#controller");const hid=c.classList.toggle("hidden");$("#toggleDock").textContent=hid?"Mostrar mesa ▼":"Esconder mesa ▲";};
-$("#fsBtn").onclick=()=>{const el=document.querySelector(".dock");const req=el.requestFullscreen||el.webkitRequestFullscreen;if(!req){const on=el.classList.toggle("fakefull");document.body.classList.toggle("fs-lock",on);$("#fsBtn").textContent=on?"⛶ Sair":"⛶ Ecrã inteiro";if(on)scrollTo(0,0);return;}if(!document.fullscreenElement&&!document.webkitFullscreenElement){const p=req.call(el);if(p&&p.then)p.then(()=>{if(screen.orientation&&screen.orientation.lock)screen.orientation.lock("landscape").catch(()=>{});}).catch(()=>{});}else{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}};
-document.addEventListener("fullscreenchange",()=>{$("#fsBtn").textContent=document.fullscreenElement?"⛶ Sair":"⛶ Ecrã inteiro";});
-document.addEventListener("webkitfullscreenchange",()=>{$("#fsBtn").textContent=document.webkitFullscreenElement?"⛶ Sair":"⛶ Ecrã inteiro";});
+$("#fsBtn").onclick=()=>{const el=document.querySelector(".dock");const req=el.requestFullscreen||el.webkitRequestFullscreen;if(!req){const on=el.classList.toggle("fakefull");document.body.classList.toggle("fs-lock",on);$("#fsBtn").textContent=on?"⛶":"⛶ Ecrã inteiro";if(on)scrollTo(0,0);return;}if(!document.fullscreenElement&&!document.webkitFullscreenElement){const p=req.call(el);if(p&&p.then)p.then(()=>{if(screen.orientation&&screen.orientation.lock)screen.orientation.lock("landscape").catch(()=>{});}).catch(()=>{});}else{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}};
+document.addEventListener("fullscreenchange",()=>{$("#fsBtn").textContent=document.fullscreenElement?"⛶":"⛶ Ecrã inteiro";});
+document.addEventListener("webkitfullscreenchange",()=>{$("#fsBtn").textContent=document.webkitFullscreenElement?"⛶":"⛶ Ecrã inteiro";});
 /* PWA: service worker (só http/https; file:// não suporta) */
 if("serviceWorker" in navigator && location.protocol.indexOf("http")===0){
   addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
