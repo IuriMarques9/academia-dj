@@ -1,5 +1,5 @@
 /* Academia de DJ — service worker: offline-first para app 100% estática. */
-const CACHE = "dj-academy-v11";
+const CACHE = "dj-academy-v12";
 const MEDIA = "dj-academy-media-v1"; // mp3s imutáveis — sobrevive a bumps do CACHE (evita re-download de ~12MB)
 const ASSETS = [
   "./",
