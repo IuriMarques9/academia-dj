@@ -300,3 +300,161 @@ window.CURRICULUM = {
     "Grava um mini-set de 15 minutos, ouve-o de fora e anota um erro de níveis, um de graves e um de phrasing para corrigir no próximo treino."
   ]
 };
+
+/* ===== Mixar com Código — live coding (Strudel), inspirado na dj_dave (Sarah Davis).
+   Pesquisa verificada: paper ICLC 2024 da própria artista, docs strudel.cc,
+   tutorial do Sonic Pi (Sam Aaron), curso de Alex McLean (TidalCycles), fóruns TOPLAP. ===== */
+window.CODE_COURSE = {
+  "title": "💻 Mixar com Código — como a dj_dave",
+  "intro": `A dj_dave (Sarah Davis) enche pistas a escrever código ao vivo: o ecrã dela é projectado e o público vê a música a nascer linha a linha. Começou em 2019 numa aula de Sonic Pi e hoje usa o <b>Strudel</b> — um editor que corre no browser, sem instalar nada — e é exactamente esse editor que tens embutido aqui em baixo. A ideia central: em vez de 2 decks e um crossfader, tens <b>camadas de código</b> (bombo, palmas, hats, baixo, melodia) que ligas, desligas e transformas em tempo real. Carregas Ctrl+Enter e a alteração entra certinha no próximo ciclo — a música nunca pára. E não há beatmatching: o relógio é um só, tudo nasce sincronizado. Faz as 7 lições por ordem; no fim consegues montar um mini-set de 10 minutos só com código.<br><br>📚 Para ires mais fundo: <a href="https://strudel.cc/workshop/getting-started/" target="_blank" rel="noopener">workshop oficial do Strudel</a> · <a href="https://www.youtube.com/watch?v=JDxhkdm_t1U" target="_blank" rel="noopener">set da dj_dave no GitHub Universe</a> · <a href="https://iil.is/pdf/2024_iclc_davis_et_al_pop.pdf" target="_blank" rel="noopener">paper onde ela explica o método</a>.`,
+  "mapTitle": "🗺️ Mapa: da mesa para o código",
+  "mapIntro": "Tudo o que aprendeste na mesa tem tradução directa. Usa esta tabela como dicionário:",
+  "map": [
+    { "dj": "Beatmatching / pitch fader", "code": "Não é preciso — setcpm(126/4) é o relógio único; tudo nasce a tempo" },
+    { "dj": "Crossfader / fader de canal", "code": ".gain(0.6) em cada camada" },
+    { "dj": "Low kill para entrar", "code": "_$: cala a camada; $: traz de volta" },
+    { "dj": "Bassline swap", "code": "Calas o baixo velho e activas o novo na MESMA re-avaliação" },
+    { "dj": "Filter sweep", "code": ".lpf(sine.range(200,3000).slow(8))" },
+    { "dj": "Echo out", "code": ".delay(0.5) na camada que sai, depois cala-a — a cauda dissipa-se" },
+    { "dj": "Loop roll / fill", "code": ".ply(2) ou .fast(2) num padrão" },
+    { "dj": "Subir energia / breakdown", "code": "Acrescentar camadas / tirar camadas" },
+    { "dj": "Sync", "code": "Ctrl+Enter — a mudança entra sempre no limite do ciclo" },
+    { "dj": "Mistura harmónica (Camelot)", "code": ".scale(\"A:minor\") — o 8A em código; os graus nunca saem do tom" },
+    { "dj": "Deck A / Deck B", "code": "Um editor por deck — o editor onde escreves é o canal por onde sai" },
+    { "dj": "SYNC", "code": "Botão SYNC do deck: alinha a fase do relógio desse deck pelo outro" }
+  ],
+  "deckDemo": {
+    "title": "🔌 Bónus: um editor por deck — mixar código com código",
+    "theory": "Carregar código num deck é como <b>pôr lá uma faixa</b>: o deck passa a mostrar «Código ao vivo» e é o <b>PLAY/PAUSA da mesa</b> que o arranca e pára, o <b>CUE</b> que o faz recomeçar, o prato que roda ao ritmo dele e o fader de TEMPO que lhe muda o BPM. Um deck nunca toca código e música ao mesmo tempo: se carregares um MP3 ou ⟳ NOVA nesse deck, o código sai; se carregares código, a faixa sai. O estúdio tem <b>dois editores</b>, um por deck — não indicas o deck dentro do código, o editor onde as linhas estão é que manda, e o <b>⇄</b> troca-as de lado. Cada deck é um canal a sério: EQ de 3 bandas, filtro, gain, fader e crossfader. O <b>SYNC</b> alinha a fase de um deck pelo outro — os dois relógios arrancam em alturas diferentes, por isso as batidas raramente caem juntas de início. É o setup ao vivo da dj_dave: o portátil entra num canal do mixer.",
+    "steps": [
+      "Carrega os dois blocos, cada um no seu deck. Repara que os decks passam a dizer «Código ao vivo» e ficam parados, à espera.",
+      "Dá PLAY no Deck A pela mesa e depois no Deck B. Pausa e retoma pelos mesmos botões — o código obedece como uma faixa.",
+      "Crossfader todo para o A: ouves só o groove. Passa devagar para o B: entra a melodia — mixaste código com código.",
+      "Se as batidas não caírem juntas, carrega no SYNC do Deck B: alinha a fase pelo Deck A. Confirma no scope de fase — os dois pontos ficam sobrepostos.",
+      "Com o crossfader ao meio, corta os graves (LOW) do Deck A: EQ ao vivo em código.",
+      "Se o medidor do canal bater no topo, baixa o GAIN desse deck (ou o .gain() da linha) — mesmo gain staging do módulo 1 da mesa.",
+      "Experimenta o ⇄: passa o groove do Deck A para o Deck B e vê tudo mudar de lado.",
+      "Extra: põe um MP3 teu no Deck A (📁) — o código desse deck sai sozinho — e deixa o código só no Deck B: mesa de um lado, código do outro."
+    ],
+    "codeA": `setcpm(124/4)
+$: sound("bd*4, ~ cp ~ cp, hh*8").bank("RolandTR909").gain(0.5)`,
+    "codeB": `setcpm(124/4)
+$: n("<0 2 4 7>*2").scale("A:minor").sound("piano").room(0.4)
+$: note("a1 a1 c2 e2").sound("sawtooth").lpf(900)`
+  },
+  "lessons": [
+    {
+      "title": "O teu primeiro beat em código",
+      "level": "básico",
+      "theory": "O Strudel toca padrões em ciclos: um ciclo é como um compasso da mesa, e repete-se para sempre. Cada linha $: é uma camada independente — como um canal do misturador. sound(\"bd bd bd bd\") toca 4 bombos por ciclo, .bank(\"RolandTR909\") escolhe a máquina de ritmos, e setcpm(124/4) põe o relógio a 124 BPM em 4/4. Para tocar carregas no ▶ do editor (ou Ctrl+Enter); para parar, Ctrl+. (ponto).",
+      "why": "É o «carregar no play» do live coding: com 3 linhas tens um groove completo — e já estás a fazer exactamente o que a dj_dave faz no arranque de cada set.",
+      "steps": ["Carrega em «▶ Carregar no estúdio» e depois no ▶ do editor.","Muda hh*8 para hh*16 e carrega Ctrl+Enter sem parar a música.","Muda setcpm(124/4) para setcpm(90/4) e ouve tudo abrandar junto.","Volta a 124 e pára com Ctrl+. — retomas quando quiseres."],
+      "mistakes": ["Esquecer o Ctrl+Enter — editar o texto não muda nada até re-avaliares.","Apagar o setcpm e ficar preso no tempo por defeito.","Escrever os padrões fora de aspas — vivem sempre dentro de \"aspas\"."],
+      "code": `// ▶ toca · Ctrl+Enter re-avalia · Ctrl+. pára
+setcpm(124/4)                                   // 124 BPM, como na mesa
+$: sound("bd bd bd bd").bank("RolandTR909")     // bombo a 4
+$: sound("~ cp ~ cp").bank("RolandTR909")       // palmas no 2 e no 4
+$: sound("hh*8").bank("RolandTR909").gain(0.6)  // hi-hats`,
+      "task": "Com a música a tocar, muda hh*8 para hh*16, Ctrl+Enter, e ouve os hats duplicarem sem a música tropeçar. Depois muda o BPM.",
+      "quiz": { "q": "Porque é que no live coding não precisas de beatmatching?", "options": ["O editor ouve as camadas e ajusta o pitch de cada uma","Há um relógio único (setcpm) e todas as camadas nascem sincronizadas","Os samples vêm todos gravados ao mesmo BPM"], "answerIndex": 1, "explain": "Na mesa sincronizas dois leitores independentes; no código há um só relógio e cada padrão é agendado nele. O trabalho de beatmatch desaparece — sobra a parte musical." }
+    },
+    {
+      "title": "Mini-notação — a linguagem dos ritmos",
+      "level": "básico",
+      "theory": "Dentro das aspas vive a mini-notação, herdada do TidalCycles: o espaço divide o ciclo em partes iguais (mais eventos = mais depressa, o ciclo não estica); ~ é pausa; [ ] subdivide um tempo; * repete; &lt;a b&gt; alterna um por ciclo; a vírgula empilha padrões em paralelo; e (3,8) gera um ritmo euclidiano — 3 batidas espalhadas por 8 posições, o segredo de imensos grooves.",
+      "why": "A mini-notação é o teu vocabulário rítmico: com meia dúzia de símbolos escreves qualquer padrão de bateria que na mesa terias de tocar nos pads.",
+      "steps": ["Toca o exemplo e identifica o [~ bd] — o segundo tempo está subdividido.","Ouve o &lt;cp cp:2&gt; a alternar o som das palmas a cada ciclo.","Muda (5,16) para (7,16) no rim e sente o groove mudar.","Escreve um padrão teu só com bd, ~ e [ ]."],
+      "mistakes": ["Pensar que acrescentar eventos estica o ciclo — o ciclo é fixo, os eventos apertam-se.","Esquecer aspas ou fechar mal um [ ].","Usar a vírgula a pensar que é sequência — é empilhar em paralelo."],
+      "code": `setcpm(126/4)
+$: sound("bd [~ bd] bd bd").bank("RolandTR909")   // [ ] subdivide o tempo
+$: sound("~ cp ~ <cp cp:2>").bank("RolandTR909")  // < > alterna a cada ciclo
+$: sound("hh*8, rim(5,16)").bank("RolandTR909")   // vírgula empilha; (5,16) euclidiano
+   .gain(0.7)`,
+      "task": "Troca o padrão do bombo por bd(3,8) e ouve o groove euclidiano. Depois experimenta (5,8) e (7,16).",
+      "quiz": { "q": "No Strudel, \"bd sd\" vs \"bd sd bd sd\": o que muda?", "options": ["O ciclo fica com o dobro da duração","O ciclo dura o mesmo e os eventos tocam 2× mais depressa","O BPM global duplica"], "answerIndex": 1, "explain": "O ciclo é uma unidade fixa de tempo: quantos mais eventos meteres lá dentro, mais depressa tocam. É o conceito central herdado do TidalCycles." }
+    },
+    {
+      "title": "Notas, baixo e melodia (Camelot em código)",
+      "level": "intermédio",
+      "theory": "note(\"a1 c2 e2\") toca notas com nome (a1 = Lá grave) e .sound() escolhe o instrumento (sawtooth, piano…). Melhor ainda: n(\"0 2 4 7\").scale(\"A:minor\") toca graus da escala — o 0 é a tónica e é impossível sair do tom. Já conheces isto da mesa: 8A na roda de Camelot É Lá menor, ou seja .scale(\"A:minor\"). Mistura harmónica garantida por construção.",
+      "why": "Na mesa escolhes faixas em tons compatíveis; no código escolhes a escala uma vez e todas as camadas melódicas ficam em harmonia — nunca há choque de notas.",
+      "steps": ["Toca o exemplo e identifica as 3 camadas: bateria, baixo, melodia.","Muda os graus da melodia (ex.: &lt;0 3 5 7&gt;) — repara que nunca desafina.","Troca a escala para A:dorian e ouve a cor mudar.","Sobe o baixo uma oitava (a1→a2) e volta."],
+      "mistakes": ["Escrever notas à mão fora da escala e estranhar o choque — usa n()+scale().","Confundir note() (notas absolutas) com n() (graus da escala).","Pôr baixo e melodia na mesma oitava e criar lama."],
+      "code": `setcpm(124/4)
+$: sound("bd*4, ~ cp ~ cp, hh*8").bank("RolandTR909")
+$: note("a1 a1 c2 e2").sound("sawtooth").lpf(800)   // baixo
+$: n("<0 2 4 7>").scale("A:minor")                  // = 8A da roda de Camelot
+   .sound("piano").room(0.4)`,
+      "task": "Compõe uma linha de baixo nova só com graus: n(\"0 0 3 5\").scale(\"A:minor\").sound(\"sawtooth\") — e depois transpõe o set inteiro trocando só a escala.",
+      "quiz": { "q": "n(\"0 2 4\").scale(\"A:minor\") equivale a quê na mesa?", "options": ["A misturar em tons compatíveis (Camelot) — nunca sais do tom","A fazer beatmatching automático","A cortar os graves com low kill"], "answerIndex": 0, "explain": "Os graus da escala são o Camelot em código: defines o tom uma vez e tudo o que escreves fica dentro dele, como escolher faixas vizinhas na roda." }
+    },
+    {
+      "title": "FX — o channel strip em código",
+      "level": "intermédio",
+      "theory": "Cada camada tem o seu channel strip: .gain() é o fader, .lpf()/.hpf() são o filtro bipolar, .room() é reverb, .delay() é o eco, .pan() posiciona no estéreo, .speed() muda a velocidade do sample. E os knobs rodam sozinhos: um sinal como sine.range(200,3000).slow(8) varre o filtro de 200 a 3000 Hz ao longo de 8 ciclos — o filter sweep que fazias à mão, automatizado e sempre a tempo.",
+      "why": "Os FX transformam «padrões certos» em música com tensão e espaço — e no código o sweep sai perfeito de cada vez, coisa que na mesa exige pulso.",
+      "steps": ["Toca o exemplo e ouve o filtro a abrir e fechar em 8 ciclos.","Troca sine por saw — o filtro sobe e cai a pique (riser).","Acrescenta .room(0.5) ao piano de uma lição anterior e compara.","Baixa o .gain dos hats para 0.4 e sente a mistura arrumar-se."],
+      "mistakes": ["Empilhar reverb e delay em tudo — lama instantânea (igual a abrir todos os EQs).","Esquecer o .slow() no sinal e ter um sweep frenético.","Usar .gain como «mais alto é melhor» — o headroom manda, como na mesa."],
+      "code": `setcpm(124/4)
+$: sound("bd*4").bank("RolandTR909")
+$: note("a1 c2 e2 g2").sound("sawtooth")
+   .lpf(sine.range(200,3000).slow(8))    // filter sweep automático de 8 ciclos
+$: sound("hh*8").bank("RolandTR909")
+   .gain(0.6).pan(sine.slow(4)).delay(0.25)`,
+      "task": "Faz um echo out de uma camada: acrescenta .delay(0.5) aos hats, re-avalia, e depois cala essa linha (troca $: por _$:) — ouve a cauda a dissipar-se.",
+      "quiz": { "q": ".lpf(sine.range(200,3000).slow(8)) é o equivalente a quê na mesa?", "options": ["Rodar o filtro num varrimento de tensão (filter sweep)","Subir o gain de entrada","Activar o sync"], "answerIndex": 0, "explain": "É o filter sweep: em vez de rodares o knob à mão, escreves a curva (sine sobe e desce, saw sobe e cai) e o varrimento sai sempre a tempo." }
+    },
+    {
+      "title": "Variação — padrões que evoluem sozinhos",
+      "level": "avançado",
+      "theory": "Aqui o código ultrapassa a mesa: transformações que nenhuma controladora faz. .rev() inverte o padrão; .jux(rev) toca o original à esquerda e a cópia invertida à direita; .off(1/8, x=&gt;x.add(7)) cria um eco melódico deslocado; .ply(2) repete cada evento; .sometimes(x=&gt;x.speed(2)) aplica uma transformação só às vezes; .degradeBy(0.2) deixa cair 20% dos eventos ao acaso. O padrão nunca toca duas vezes igual.",
+      "why": "Num set de DJ a variação vem gravada na faixa; no live coding és tu que a fabricas — uma linha simples ganha vida própria e aguenta minutos sem cansar.",
+      "steps": ["Toca o exemplo e ouve o piano: esquerda normal, direita invertida.","Tira o .jux(rev), re-avalia, volta a pôr — sente o estéreo.","Muda o off para 1/4 e ouve o eco melódico ficar mais largo (add(7) = oitava acima, porque a escala tem 7 graus).","Sobe o degradeBy para 0.5 e ouve os hats a desfazer-se."],
+      "mistakes": ["Exagerar no random e perder o groove — variação é tempero, não é o prato.","Aplicar degradeBy ao bombo e ficar sem fundação.","Empilhar tantas transformações que já não sabes o que soa (na dúvida, tira)."],
+      "code": `setcpm(126/4)
+$: n("0 [4 <3 2>] 2 [~ 1]".off(1/8, x=>x.add(7)))
+   .scale("A:minor").sound("piano")
+   .jux(rev).room(0.3)                   // esquerda normal, direita invertida
+$: sound("bd*4").bank("RolandTR909")
+$: sound("hh*16").bank("RolandTR909").gain(0.5)
+   .degradeBy(0.2).sometimes(x=>x.speed(2))`,
+      "task": "Deixa o exemplo a tocar 2 minutos sem mexer e repara que nunca repete exactamente. Depois cria a tua variação: .ply(2) nas palmas de outra lição.",
+      "quiz": { "q": "O que faz .sometimes(x=>x.speed(2))?", "options": ["Aplica speed(2) a todos os eventos","Aplica speed(2) só a alguns eventos, ao acaso","Duplica o BPM do relógio global"], "answerIndex": 1, "explain": "sometimes aplica a transformação a ~50% dos eventos, aleatoriamente — variação orgânica sem tocares em nada. Há também sometimesBy(0.3, …) para controlares a percentagem." }
+    },
+    {
+      "title": "Mixar — transições e energia",
+      "level": "avançado",
+      "theory": "Mixar em código é gerir camadas. O prefixo _$: cala uma linha (o teu low kill); voltar a pôr $: traz a camada de volta — e a troca entra sempre no limite do ciclo. A regra de ouro da mesa mantém-se: nunca dois baixos — cala o baixo velho na MESMA re-avaliação em que activas o novo (bassline swap). Build: tira o bombo e sobe um .hpf; drop: re-avalia tudo de volta de uma vez. Echo out: .delay na camada que sai e depois cala-a — a cauda morre sozinha.",
+      "why": "É a lição que junta tudo: com mutes, sweeps e re-avaliação no tempo certo fazes transições completas entre «faixas» — sem crossfader.",
+      "steps": ["Toca o TRACK 1 e deixa assentar 8 ciclos.","Activa as duas linhas do TRACK 2 (troca _$: por $:) e re-avalia — entram por cima, a tempo.","Faz o bass swap: no MESMO Ctrl+Enter, cala o baixo do 1 e mantém o do 2.","Cala o resto do TRACK 1 — transição completa."],
+      "mistakes": ["Deixar os dois baixos abertos — a mesma lama de graves da mesa.","Re-avaliar a meio do gesto: junta as alterações e carrega Ctrl+Enter UMA vez.","Deixar camadas fantasma a tocar — o ecrã é o teu mixer, mantém-no arrumado."],
+      "code": `setcpm(126/4)
+// ===== TRACK 1 — a tocar =====
+$: sound("bd*4, ~ cp ~ cp, hh*8").bank("RolandTR909")
+$: note("a1 a1 c2 e2").sound("sawtooth").lpf(900)
+// ===== TRACK 2 — na calha (troca _$: por $: para entrar) =====
+_$: sound("bd(3,8), rim(5,16)").bank("RolandTR808")
+_$: n("0 3 5 7").scale("A:minor").sound("piano").room(0.3)`,
+      "task": "Faz a transição completa do TRACK 1 para o TRACK 2 sem nunca teres dois bombos/baixos ao mesmo tempo. Termina com echo out na última camada do 1.",
+      "quiz": { "q": "Qual é o equivalente do low kill numa transição em código?", "options": ["Apagar a linha do baixo","Calar a camada com _$: e trazê-la de volta com $:","Baixar o setcpm"], "answerIndex": 1, "explain": "_$: silencia a camada sem a perderes (o código fica lá, como um canal com o fader em baixo); $: traz de volta no limite do ciclo. Apagar a linha perde o código; mexer no setcpm muda o tempo de tudo." }
+    },
+    {
+      "title": "Performance — o teu set de 10 minutos",
+      "level": "avançado",
+      "theory": "Como faz a dj_dave num concerto: começa de ecrã vazio e escreve o loop principal ao vivo — para o público ligar o código ao som — e depois faz scroll para o resto do set já preparado, ligando camadas e varrendo filtros no momento certo. Preparar não é batota: como diz o criador do Sonic Pi, os DJs também não compõem as faixas que tocam. Cultura algorave: o erro faz parte do espectáculo («show us your screens»). Plano de emergência de quem toca ao vivo: um bombo 4/4 simples por baixo segura a pista enquanto arranjas o resto.",
+      "why": "Performance é uma competência à parte da composição — treiná-la é o que te leva de «sei os comandos» a «encho 10 minutos sem silêncio morto».",
+      "steps": ["Guarda um skeleton como o do exemplo: fundação + camadas caladas (_$:).","Começa só com o bombo; traz uma camada de cada vez, ~8 ciclos entre cada.","A meio faz um build (cala o bombo, deixa o sweep subir) e um drop (tudo de volta num Ctrl+Enter).","Fecha com echo out. Se algo partir: bombo 4/4, respira, conserta com a música a andar."],
+      "mistakes": ["Escrever tudo do zero em palco — a digitação não acompanha a pista; prepara snippets.","Não ter plano de emergência para um erro de sintaxe.","Complexidade a mais: quem toca ao vivo usa ~15 funções para 99% do set.","Parar a música para pensar — silêncio morto é o único erro que a pista não perdoa."],
+      "code": `setcpm(128/4)
+// ===== SKELETON DE SET — liga camadas trocando _$: por $: =====
+$: sound("bd*4").bank("RolandTR909")               // fundação — nunca a deixes cair
+_$: sound("~ cp ~ cp").bank("RolandTR909")
+_$: sound("hh*8").bank("RolandTR909").gain(0.6)
+_$: note("a1 c2 e2 g2").sound("sawtooth")
+    .lpf(sine.range(300,2500).slow(16))
+_$: n("<0 2 4 7>*2").scale("A:minor").sound("piano").room(0.4)`,
+      "task": "O drill final: 10 minutos de relógio. Começa só com o bombo, constrói camada a camada, faz 1 build + 1 drop, fecha com echo out. Sem pausas mortas = marca feito. Estás oficialmente a mixar com código.",
+      "quiz": { "q": "O código deu erro a meio do set. O que fazes?", "options": ["Paras a música e corriges com calma","Seguras a pista com um bombo 4/4 simples e corriges com a música a andar","Recomeças o set do zero"], "answerIndex": 1, "explain": "A regra de ouro do live coding: a música nunca pára. Um kick 4/4 simples segura a pista o tempo que precisares — e a cultura algorave trata o erro como parte do espectáculo." }
+    }
+  ]
+};

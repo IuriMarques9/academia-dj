@@ -79,6 +79,7 @@
   .bpmline .unit{font-size:10px;color:var(--dim);}
   .matchdot{font-size:11px;color:var(--dim);min-height:14px;}.matchdot.on{color:var(--grn);font-weight:700;}
   .trackname{font-size:11px;color:var(--dim);text-align:center;}.trackname b{color:#cfd2e4;}.key{color:var(--yel);font-weight:700;}
+  .codebadge{display:inline-block;background:#0d2b33;color:var(--cyan);border:1px solid #17505e;border-radius:999px;padding:1px 7px;font-size:9px;font-weight:800;letter-spacing:.5px;}
   .wave{width:100%;height:54px;border-radius:8px;border:1px solid #2a2d3d;background:#0d0e14;cursor:pointer;display:block;margin-top:2px;}
   .transport{display:flex;gap:7px;}.deck.B .transport{flex-direction:row-reverse;}
   .tbtn{flex:1;padding:12px 0;border-radius:9px;border:1px solid #00000066;cursor:pointer;font-weight:800;font-size:12px;letter-spacing:1px;background:linear-gradient(180deg,#262833,#14151c);color:#8b90a6;box-shadow:inset 0 1px 0 #ffffff14,0 3px 5px #0008;user-select:none;touch-action:none;}
@@ -118,6 +119,42 @@
   .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
   .tab{background:#13141b;border:1px solid var(--edge);color:var(--dim);padding:9px 14px;border-radius:10px;font-size:13px;cursor:pointer;font-weight:600;}
   .tab.on{color:#06070b;background:linear-gradient(90deg,var(--cyan),var(--mag));border-color:transparent;}
+
+  /* ===== MIXAR COM CÓDIGO (live coding / Strudel) ===== */
+  .studio{background:#101119;border:1px solid var(--edge);border-radius:14px;padding:14px;margin-bottom:14px;}
+  .studio .shead{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+  .studio .cprog{font-size:12px;color:var(--dim);}
+  .studio .snote{font-size:12px;color:var(--dim);margin-bottom:10px;line-height:1.5;}
+  .studio .soff{font-size:12.5px;color:var(--yel);margin-bottom:10px;}
+  .studio .soff button{background:#15161f;border:1px solid var(--edge);color:var(--txt);font-size:11.5px;padding:5px 10px;border-radius:7px;cursor:pointer;margin-left:8px;}
+  #studioHolder strudel-editor{display:block;min-height:230px;}
+  .cdeck{border:1px solid var(--edge);border-radius:12px;margin-bottom:12px;overflow:hidden;background:#0b0c12;}
+  .cdeck.A{border-left:3px solid var(--cyan);} .cdeck.B{border-left:3px solid var(--mag);}
+  .cdhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 11px;background:#10111a;border-bottom:1px solid var(--edge);}
+  .cdhead b{font-size:12px;letter-spacing:1.5px;}
+  .cdeck.A .cdhead b{color:var(--cyan);} .cdeck.B .cdhead b{color:var(--mag);}
+  .cdst{font-size:11px;color:var(--dim);font-variant-numeric:tabular-nums;}
+  .cdst.on{color:var(--grn);}
+  .cdbtns{margin-left:auto;display:flex;gap:6px;}
+  .cdbtns button{background:#15161f;border:1px solid var(--edge);color:var(--dim);font-size:11px;padding:5px 9px;border-radius:7px;cursor:pointer;}
+  .cdbtns button:hover{border-color:var(--cyan);color:var(--txt);}
+  .srout{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;padding:9px 11px;background:#0b0c12;border:1px solid var(--edge);border-radius:10px;}
+  .srout button{background:#15161f;border:1px solid var(--edge);color:var(--txt);font-size:12px;font-weight:700;padding:7px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;}
+  .srout button:hover{border-color:var(--cyan);color:var(--cyan);}
+  .srout button.on{color:#06070b;background:linear-gradient(90deg,var(--cyan),var(--grn));border-color:transparent;}
+  .srout .rhint{font-size:11.5px;color:var(--dim);line-height:1.45;}
+  .srout .rhint b{color:var(--cyan);}
+  .codeblock{position:relative;background:#0b0c12;border:1px solid var(--edge);border-radius:10px;margin:12px 0;}
+  .codeblock pre{padding:12px;padding-bottom:48px;overflow-x:auto;font-family:Consolas,Menlo,monospace;font-size:12.5px;line-height:1.6;color:#c9e6ff;white-space:pre;}
+  .codeblock .cbtns{position:absolute;right:8px;bottom:8px;display:flex;gap:6px;}
+  .codeblock .cbtns button{background:#15161f;border:1px solid var(--edge);color:var(--txt);font-size:11.5px;padding:6px 10px;border-radius:7px;cursor:pointer;}
+  .codeblock .cbtns .crun{color:#06070b;background:linear-gradient(90deg,var(--cyan),var(--grn));border-color:transparent;font-weight:700;}
+  .codeblock .cbtns .crun.b{background:linear-gradient(90deg,var(--mag),var(--yel));}
+  .cmap table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px;}
+  .cmap th{color:var(--dim);text-transform:uppercase;font-size:10.5px;letter-spacing:1px;}
+  .cmap th,.cmap td{border-bottom:1px solid var(--edge);padding:8px;text-align:left;vertical-align:top;}
+  .cmap td code{font-family:Consolas,Menlo,monospace;color:#c9e6ff;font-size:12px;}
+  #tab-codigo a{color:var(--cyan);}
   .intro{background:linear-gradient(135deg,#171926,#12131b);border:1px solid var(--edge);border-radius:12px;padding:14px 16px;margin-bottom:14px;font-size:13px;color:#cfd2e4;line-height:1.5;position:relative;overflow:hidden;}
   .intro::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--cyan),var(--mag));}
   .modnav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
@@ -363,7 +400,7 @@
         <div class="jog" id="platterA" data-jog="A"><div class="platter"></div><div class="marker" id="markerA"></div><div class="hub">A</div><div class="beatled" id="ledA"></div></div>
         <div class="bpmline"><span class="big" id="bpmA">124.0</span><span class="unit">BPM</span></div>
         <div class="matchdot" id="matchA">parado</div>
-        <div class="trackname">♪ <b id="trackA">Sunset House</b> · <span class="key" id="keyA">8A</span></div>
+        <div class="trackname">♪ <b id="trackA">Sunset House</b> · <span class="key" id="keyA">8A</span> <span class="codebadge" id="cbA" hidden>💻 CÓDIGO</span></div>
         <canvas class="wave" id="waveA" width="600" height="54"></canvas>
       </div>
       <div class="transport">
@@ -432,7 +469,7 @@
         <div class="jog" id="platterB" data-jog="B"><div class="platter"></div><div class="marker" id="markerB"></div><div class="hub">B</div><div class="beatled" id="ledB"></div></div>
         <div class="bpmline"><span class="big" id="bpmB">120.0</span><span class="unit">BPM</span></div>
         <div class="matchdot" id="matchB">parado</div>
-        <div class="trackname">♪ <b id="trackB">Night Drive</b> · <span class="key" id="keyB">8A</span></div>
+        <div class="trackname">♪ <b id="trackB">Night Drive</b> · <span class="key" id="keyB">8A</span> <span class="codebadge" id="cbB" hidden>💻 CÓDIGO</span></div>
         <canvas class="wave" id="waveB" width="600" height="54"></canvas>
       </div>
       <div class="transport">
@@ -460,6 +497,7 @@
     <button class="tab" data-tab="glossario">📖 Glossário</button>
     <button class="tab" data-tab="camelot">🎼 Camelot</button>
     <button class="tab" data-tab="plano">📝 Plano de treino</button>
+    <button class="tab" data-tab="codigo">💻 Mixar com Código</button>
   </div>
 
   <div id="tab-licoes">
@@ -471,6 +509,35 @@
   <div id="tab-glossario" hidden><div class="gloss" id="glossList"></div></div>
   <div id="tab-camelot" hidden><div id="camBox"></div></div>
   <div id="tab-plano" hidden><div class="plan" id="planList"></div></div>
+  <div id="tab-codigo" hidden>
+    <div class="intro" id="codeIntro"></div>
+    <div class="studio" id="studioBox">
+      <div class="shead"><b>🎛️ Estúdio Strudel</b><span class="cprog" id="codeProg"></span></div>
+      <div class="snote">Editor real do <b>strudel.cc</b> embutido — o mesmo que a dj_dave usa. <b>Um editor por deck</b>: o que escreveres em cima sai pelo Deck A, o de baixo pelo Deck B (não precisas de indicar nada no código). <b>▶</b> toca · <b>Ctrl+Enter</b> re-avalia sem parar · <b>Ctrl+.</b> pára. Os sons carregam da internet.</div>
+      <div class="soff" id="studioOffline" hidden>⚠️ O editor não carregou — o Strudel e os seus sons precisam de internet. A mesa continua a funcionar offline. <button id="studioRetry">Tentar de novo</button></div>
+      <div class="srout">
+        <button id="mesaLink">🔌 Ligar o código à mesa</button>
+        <span class="rhint" id="mesaHint">Agora o som do código sai directo para as colunas, sem passar pela mesa.</span>
+      </div>
+      <div id="studioHolder">
+        <div class="cdeck A" id="cdeckA">
+          <div class="cdhead"><b>DECK A</b><span class="cdst" id="cdstA">parado</span>
+            <div class="cdbtns"><button data-cmove="A">⇄ Passar para o Deck B</button><button data-cclear="A">✕ Limpar</button></div>
+          </div>
+          <div class="cdhold" id="cdholdA"></div>
+        </div>
+        <div class="cdeck B" id="cdeckB">
+          <div class="cdhead"><b>DECK B</b><span class="cdst" id="cdstB">parado</span>
+            <div class="cdbtns"><button data-cmove="B">⇄ Passar para o Deck A</button><button data-cclear="B">✕ Limpar</button></div>
+          </div>
+          <div class="cdhold" id="cdholdB"></div>
+        </div>
+      </div>
+    </div>
+    <div class="lesson cmap" id="codeMap"></div>
+    <div class="lesson" id="codeDeckDemo"></div>
+    <div id="codeLessons"></div>
+  </div>
 </div>
 
 <div class="hud" id="hud"><span class="ddot" id="hudDot"></span><div><div class="htext" id="hudText"></div><div class="hstat" id="hudStat"></div></div><span class="x" id="hudX">✕</span></div>
@@ -537,16 +604,45 @@ function fxRoll(dest){dest=dest||master;let t=AC.currentTime,gap=0.14;for(let i=
 const SCHED_AHEAD=0.12,TICK=25;
 function sec16(dk){return 60.0/dk.bpm/4;}
 function scheduleStep(dk,step,t){const p=dk.pattern,dest=dk.input;if(p.k[step])kick(dest,t);if(p.s[step])snare(dest,t);if(p.h[step])hat(dest,t,p.h[step]===2);if(p.bass[step]!=null)bassNote(dest,t,p.bass[step],sec16(dk)*2);if(p.lead[step]!=null)leadNote(dest,t,p.lead[step],p.leadType);}
-function schedulerTick(){if(!AC)return;const t=AC.currentTime;for(const k of["A","B"]){const dk=decks[k];if(!dk.playing||dk.mode==="file")continue;while(dk.nextNoteTime<t+SCHED_AHEAD){let step;if(dk.loopOn)step=(dk.loopStart+((dk.absStep-dk.loopStart)%dk.loopLen))%16;else step=dk.absStep%16;scheduleStep(dk,step,dk.nextNoteTime);dk.nextNoteTime+=sec16(dk);dk.absStep++;}}}
+function schedulerTick(){if(!AC)return;const t=AC.currentTime;for(const k of["A","B"]){const dk=decks[k];if(!dk.playing||dk.mode!=="synth")continue;while(dk.nextNoteTime<t+SCHED_AHEAD){let step;if(dk.loopOn)step=(dk.loopStart+((dk.absStep-dk.loopStart)%dk.loopLen))%16;else step=dk.absStep%16;scheduleStep(dk,step,dk.nextNoteTime);dk.nextNoteTime+=sec16(dk);dk.absStep++;}}}
 setInterval(schedulerTick,TICK);
 function contStep(dk){if(!dk.playing)return dk.absStep;return dk.absStep+(AC.currentTime-dk.nextNoteTime)/sec16(dk);}
 function liveStep(dk){let cs=contStep(dk);if(dk.loopOn)cs=dk.loopStart+(((cs-dk.loopStart)%dk.loopLen)+dk.loopLen)%dk.loopLen;return cs;}
-function barPos(dk){if(dk.mode==="file")return (dk.buffer&&dk.playing)?deckBar(dk):0;const cs=liveStep(dk);return(((cs%16)+16)%16)/16;}
+function barPos(dk){if(dk.mode==="code")return dk.playing?(((codeCycles(dk.name)%1)+1)%1):0;if(dk.mode==="file")return (dk.buffer&&dk.playing)?deckBar(dk):0;const cs=liveStep(dk);return(((cs%16)+16)%16)/16;}
 
-function setPlay(k,on){const dk=decks[k];if(dk.mode==="file"){if(on&&!dk.playing){dk.playing=true;startFile(dk);}else if(!on&&dk.playing){stopFile(dk);dk.playing=false;}}else{if(on&&!dk.playing){dk.playing=true;dk.nextNoteTime=AC.currentTime+0.06;}else if(!on&&dk.playing){dk.playing=false;}}const b=$(`[data-play="${k}"]`);b.classList.toggle("on",dk.playing);b.textContent=dk.playing?"‖":"▶ ‖";}
-function cue(k){const dk=decks[k];if(dk.mode==="file"){const c0=(dk.cues[0]!=null?dk.cues[0]:0);if(dk.playing){stopFile(dk);dk.offset=c0;startFile(dk);}else{dk.offset=c0;setPlay(k,true);}return;}dk.absStep=0;if(dk.loopOn)dk.loopStart=0;dk.nextNoteTime=AC.currentTime+0.04;if(!dk.playing)setPlay(k,true);}
+function setPlayBtn(k,on){const b=$(`[data-play="${k}"]`);b.classList.toggle("on",on);b.textContent=on?"‖":"▶ ‖";}
+/* código carregado num deck = faixa carregada nesse deck: o PLAY/CUE da mesa
+   é que manda. Um deck nunca tem código e música ao mesmo tempo. */
+function setPlay(k,on){const dk=decks[k];
+  if(dk.mode==="code"){
+    const ed=codeEditor(k);
+    if(!ed){toast(`Deck ${k}: carrega código no estúdio primeiro`);return;}
+    if(on){
+      if(!(ed.code||"").trim()){toast(`Deck ${k} sem código`);return;}
+      try{ed.evaluate();}catch(e){}
+      dk.playing=true;
+    }else{try{ed.repl.stop();}catch(e){}dk.playing=false;}
+    setPlayBtn(k,dk.playing);return;
+  }
+  if(dk.mode==="file"){if(on&&!dk.playing){dk.playing=true;startFile(dk);}else if(!on&&dk.playing){stopFile(dk);dk.playing=false;}}else{if(on&&!dk.playing){dk.playing=true;dk.nextNoteTime=AC.currentTime+0.06;}else if(!on&&dk.playing){dk.playing=false;}}const b=$(`[data-play="${k}"]`);b.classList.toggle("on",dk.playing);b.textContent=dk.playing?"‖":"▶ ‖";}
+function cue(k){const dk=decks[k];
+  if(dk.mode==="code"){   // CUE = recomeçar o código do princípio
+    const ed=codeEditor(k);if(!ed)return;
+    try{ed.repl.stop();}catch(e){}
+    dk.playing=false;setPlayBtn(k,false);
+    setTimeout(()=>setPlay(k,true),60);
+    return;
+  }
+  if(dk.mode==="file"){const c0=(dk.cues[0]!=null?dk.cues[0]:0);if(dk.playing){stopFile(dk);dk.offset=c0;startFile(dk);}else{dk.offset=c0;setPlay(k,true);}return;}dk.absStep=0;if(dk.loopOn)dk.loopStart=0;dk.nextNoteTime=AC.currentTime+0.04;if(!dk.playing)setPlay(k,true);}
 function setVol(k,v){decks[k].vol=v;if(decks[k].ch)decks[k].ch.gain.setTargetAtTime(v,AC.currentTime,0.01);}
-function setTempo(k,pct){const dk=decks[k];dk.pitch=pct;if(dk.mode==="file"){dk.bpm=(dk.fileBaseBPM||120)*(1+pct/100);if(dk.src)dk.src.playbackRate.setTargetAtTime(1+pct/100,AC.currentTime,0.02);}else{dk.bpm=dk.baseBPM*(1+pct/100);}if(dk.syncOn){dk.syncOn=false;$(`[data-sync="${k}"]`).classList.remove("on");}}
+function setTempo(k,pct){const dk=decks[k];dk.pitch=pct;
+  if(dk.mode==="code"){   /* fader de tempo manda no relógio do código (até re-avaliares: aí o setcpm do teu código volta a mandar) */
+    const ed=codeEditor(k),s=codeSched(k);
+    if(ed&&s&&codeBaseCps[k]){try{ed.repl.setCps(codeBaseCps[k]*(1+pct/100));}catch(e){}}
+    if(dk.syncOn){dk.syncOn=false;$(`[data-sync="${k}"]`).classList.remove("on");}
+    return;
+  }
+  if(dk.mode==="file"){dk.bpm=(dk.fileBaseBPM||120)*(1+pct/100);if(dk.src)dk.src.playbackRate.setTargetAtTime(1+pct/100,AC.currentTime,0.02);}else{dk.bpm=dk.baseBPM*(1+pct/100);}if(dk.syncOn){dk.syncOn=false;$(`[data-sync="${k}"]`).classList.remove("on");}}
 function setEQ(k,band,db){const dk=decks[k];dk.eq[band]=db;if(dk[band])dk[band].gain.setTargetAtTime(db,AC.currentTime,0.01);}
 function setTrim(k,v){const dk=decks[k];dk.trim=v;if(dk.input)dk.input.gain.setTargetAtTime(v,AC.currentTime,0.01);}
 function setFilter(k,val){const dk=decks[k];dk.filter=val;if(!dk.fxLP)return;const t=AC.currentTime;if(val<-0.03){dk.fxLP.frequency.setTargetAtTime(20000*Math.pow(400/20000,-val),t,0.02);dk.fxHP.frequency.setTargetAtTime(20,t,0.02);}else if(val>0.03){dk.fxHP.frequency.setTargetAtTime(20*Math.pow(1200/20,val),t,0.02);dk.fxLP.frequency.setTargetAtTime(22000,t,0.02);}else{dk.fxLP.frequency.setTargetAtTime(22000,t,0.02);dk.fxHP.frequency.setTargetAtTime(20,t,0.02);}}
@@ -556,7 +652,13 @@ function applyCrossfade(){const a=Math.cos(crossfade*Math.PI/2),b=Math.sin(cross
 function setXfader(v){crossfade=v;$("#xfader").value=v;applyCrossfade();}
 function toggleLoop(k){const dk=decks[k];dk.loopOn=!dk.loopOn;if(dk.loopOn)dk.loopStart=dk.absStep;$(`[data-loop="${k}"]`).classList.toggle("on",dk.loopOn);}
 function toggleEcho(k){const dk=decks[k];dk.echoOn=!dk.echoOn;dk.delay.delayTime.setTargetAtTime((60/dk.bpm)*0.75,AC.currentTime,0.02);dk.echoSend.gain.setTargetAtTime(dk.echoOn?0.6:0,AC.currentTime,0.02);$(`[data-echo="${k}"]`).classList.toggle("on",dk.echoOn);}
-function syncDeck(slaveK){const masterK=slaveK==="A"?"B":"A";const sl=decks[slaveK],ma=decks[masterK];if(!ma.playing){toast("SYNC: dá play na outra deck primeiro");return;}let pct=(ma.bpm/sl.baseBPM-1)*100;pct=Math.max(-8,Math.min(8,pct));setTempo(slaveK,pct);setFaderUI(`tempo${slaveK}`,pct);sl.absStep=ma.absStep;sl.nextNoteTime=ma.nextNoteTime;if(!sl.playing)setPlay(slaveK,true);sl.syncOn=true;$(`[data-sync="${slaveK}"]`).classList.add("on");toast(`SYNC: deck ${slaveK} sincronizada`);}
+function syncDeck(slaveK){
+  /* deck a tocar código: SYNC alinha a fase com o outro deck de código */
+  if(typeof vCode==="function"&&vCode(slaveK)){
+    if(codeSyncTo(slaveK)){$(`[data-sync="${slaveK}"]`).classList.add("on");setTimeout(()=>$(`[data-sync="${slaveK}"]`).classList.remove("on"),1200);}
+    return;
+  }
+  const masterK=slaveK==="A"?"B":"A";const sl=decks[slaveK],ma=decks[masterK];if(!ma.playing){toast("SYNC: dá play na outra deck primeiro");return;}let pct=(ma.bpm/sl.baseBPM-1)*100;pct=Math.max(-8,Math.min(8,pct));setTempo(slaveK,pct);setFaderUI(`tempo${slaveK}`,pct);sl.absStep=ma.absStep;sl.nextNoteTime=ma.nextNoteTime;if(!sl.playing)setPlay(slaveK,true);sl.syncOn=true;$(`[data-sync="${slaveK}"]`).classList.add("on");toast(`SYNC: deck ${slaveK} sincronizada`);}
 function padHit(k,n){const pad=$(`[data-pad="${k}:${n}"]`);if(pad){pad.classList.add("lit");setTimeout(()=>pad.classList.remove("lit"),140);}const dk=decks[k];if(dk.mode==="file"&&dk.buffer){const i=+n-1;if(dk.cues[i]==null){dk.cues[i]=filepos(dk);toast("Hot cue "+n+" definido");}else{if(dk.playing){stopFile(dk);dk.offset=dk.cues[i];startFile(dk);}else{dk.offset=dk.cues[i];setPlay(k,true);}}drawWave(k);return;}if(n==="1")cue(k);else if(n==="2")fxVoice(decks[k].input);else if(n==="3")fxAirhorn(decks[k].input);else if(n==="4")fxRoll(decks[k].input);}
 
 /* ---------- gerador de faixas aleatórias ---------- */
@@ -582,7 +684,7 @@ function randomTrack(){
   for(let i=0;i<nLead;i++)lead[ri(16)]=midi(root+24+SCALE_MIN[ri(7)]);
   return {pattern:{k,s,h,bass,lead,leadType:chance(0.5)?"stab":"pluck"},baseBPM,name:TRK_ADJ[ri(TRK_ADJ.length)]+" "+TRK_NOUN[ri(TRK_NOUN.length)],key:PC2CAM[pc]};
 }
-function loadTrack(k){const dk=decks[k];if(dk.mode==="file"){stopFile(dk);dk.mode="synth";dk.buffer=null;dk.peaks=null;drawWave(k);}const t=randomTrack();dk.pattern=t.pattern;dk.baseBPM=t.baseBPM;dk.bpm=t.baseBPM*(1+dk.pitch/100);$(`#track${k}`).textContent=t.name;$(`#key${k}`).textContent=t.key;if(dk.syncOn){dk.syncOn=false;$(`[data-sync="${k}"]`).classList.remove("on");}toast(`Deck ${k}: ${t.name} · ${t.key} · ${t.baseBPM} BPM`);}
+function loadTrack(k){const dk=decks[k];exitCodeMode(k);if(dk.mode==="file"){stopFile(dk);dk.mode="synth";dk.buffer=null;dk.peaks=null;drawWave(k);}const t=randomTrack();dk.pattern=t.pattern;dk.baseBPM=t.baseBPM;dk.bpm=t.baseBPM*(1+dk.pitch/100);$(`#track${k}`).textContent=t.name;$(`#key${k}`).textContent=t.key;if(dk.syncOn){dk.syncOn=false;$(`[data-sync="${k}"]`).classList.remove("on");}toast(`Deck ${k}: ${t.name} · ${t.key} · ${t.baseBPM} BPM`);}
 
 /* ---------- MP3/ficheiros: playback + waveform + hot cues ---------- */
 function computePeaks(buffer,bins){const ch=buffer.getChannelData(0);const block=Math.max(1,Math.floor(ch.length/bins));const peaks=new Float32Array(bins);for(let i=0;i<bins;i++){let max=0;const s=i*block;for(let j=0;j<block;j+=8){const v=Math.abs(ch[s+j]||0);if(v>max)max=v;}peaks[i]=max;}return peaks;}
@@ -590,7 +692,7 @@ function estimateBPM(buffer){const ch=buffer.getChannelData(0),sr=buffer.sampleR
 function filepos(dk){if(!dk.dur)return 0;if(!dk.src)return dk.offset%dk.dur;const rate=dk.src.playbackRate.value;return (dk.offset+(AC.currentTime-dk.srcStart)*rate)%dk.dur;}
 function startFile(dk){if(!dk.buffer)return;if(dk.src){try{dk.src.stop();}catch(e){}}const s=AC.createBufferSource();s.buffer=dk.buffer;s.loop=true;s.playbackRate.value=1+dk.pitch/100;s.connect(dk.input);s.start(0,dk.offset%dk.dur);dk.src=s;dk.srcStart=AC.currentTime;}
 function stopFile(dk){if(dk.src){dk.offset=filepos(dk);try{dk.src.stop();}catch(e){}dk.src=null;}}
-function applyBuffer(k,buf,name,bpm,key){const dk=decks[k];stopFile(dk);dk.mode="file";dk.buffer=buf;dk.dur=buf.duration;dk.peaks=computePeaks(buf,600);dk.offset=0;dk.cues=[null,null,null,null];dk.fileBaseBPM=bpm||estimateBPM(buf);dk.bpm=dk.fileBaseBPM*(1+dk.pitch/100);if(dk.syncOn){dk.syncOn=false;$(`[data-sync="${k}"]`).classList.remove("on");}$(`#track${k}`).textContent=name;$(`#key${k}`).textContent=key||"♪ MP3";drawWave(k);if(dk.playing)startFile(dk);}
+function applyBuffer(k,buf,name,bpm,key){const dk=decks[k];exitCodeMode(k);stopFile(dk);dk.mode="file";dk.buffer=buf;dk.dur=buf.duration;dk.peaks=computePeaks(buf,600);dk.offset=0;dk.cues=[null,null,null,null];dk.fileBaseBPM=bpm||estimateBPM(buf);dk.bpm=dk.fileBaseBPM*(1+dk.pitch/100);if(dk.syncOn){dk.syncOn=false;$(`[data-sync="${k}"]`).classList.remove("on");}$(`#track${k}`).textContent=name;$(`#key${k}`).textContent=key||"♪ MP3";drawWave(k);if(dk.playing)startFile(dk);}
 function loadFile(k,file){if(!AC){toast("Liga a mesa primeiro");return;}const dk=decks[k];const seq=++dk.loadSeq;const fr=new FileReader();fr.onload=()=>{const ab=fr.result;AC.decodeAudioData(ab.slice(0)).then(buf=>{if(seq!==dk.loadSeq)return;const name=file.name.replace(/\.[^.]+$/,"");applyBuffer(k,buf,name,null,null);toast(`${file.name} · ~${Math.round(dk.fileBaseBPM)} BPM`);crateList().then(list=>{if(list.some(m=>m.name===name&&m.size===file.size))return;return crateSave({name,size:file.size,bpm:dk.fileBaseBPM,dur:buf.duration,addedAt:Date.now()},ab).then(()=>{toast(`💾 Guardada na crate: ${name}`);if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});});}).catch(err=>toast(err&&err.name==="QuotaExceededError"?"Sem espaço no telemóvel — a música toca, mas não ficou guardada":"Crate indisponível neste browser — a música toca na mesma"));}).catch(()=>{if(seq===dk.loadSeq)toast("Não consegui ler esse áudio");});};fr.readAsArrayBuffer(file);}
 function drawWave(k){const cv=$(`#wave${k}`);if(!cv)return;const c=cv.getContext("2d"),W=cv.width,H=cv.height,mid=H/2,dk=decks[k];c.clearRect(0,0,W,H);c.fillStyle="#0d0e14";c.fillRect(0,0,W,H);if(!dk.peaks){c.fillStyle="#3a3f55";c.font="10px Segoe UI";c.textAlign="center";c.fillText("📁 carrega um MP3 teu",W/2,mid+3);return;}const col=k==="A"?"#27e1ff":"#ff3ea5";const n=dk.peaks.length;c.fillStyle=col;c.globalAlpha=0.85;for(let x=0;x<W;x++){const p=dk.peaks[Math.floor(x/W*n)]||0;const bar=Math.max(1,p*H*0.92);c.fillRect(x,mid-bar/2,1,bar);}c.globalAlpha=1;const cc=["#ffd23e","#39e58c","#ff8a3e","#c58aff"];dk.cues.forEach((cu,i)=>{if(cu==null)return;const x=cu/dk.dur*W;c.fillStyle=cc[i];c.fillRect(x-1,0,2,H);c.fillRect(x-3,0,7,4);});if(dk.dur){const x=filepos(dk)/dk.dur*W;c.fillStyle="#fff";c.fillRect(x-1,0,2,H);}}
 function deckBar(dk){if(!dk.dur||!dk.bpm)return 0;const beat=60/dk.bpm;return((((filepos(dk)/beat)%4)+4)%4)/4;}
@@ -666,13 +768,45 @@ function bpmDiff(){return Math.abs(decks.A.bpm-decks.B.bpm);}
 function phaseDiff(){let d=barPos(decks.B)-barPos(decks.A);d=((d+0.5)%1+1)%1-0.5;return d;}
 function isMatched(){return decks.A.playing&&decks.B.playing&&bpmDiff()<0.35;}
 function isAligned(){return isMatched()&&Math.abs(phaseDiff())<0.045;}
+/* versão "visual" que também conta os decks a tocar código — usada só no scope
+   e no indicador de fase. Os drills continuam com isMatched/isAligned (só mesa),
+   senão um deck de código dava-os por feitos sem tocares na mesa. */
+function vOn(k){return decks[k].playing;}
+function vCode(k){return decks[k].mode==="code"&&decks[k].playing;}
+function vPos(k){return barPos(decks[k]);}
+function vBPM(k){return vCode(k)?codeBPM(k):decks[k].bpm;}
+function vMatched(){return vOn("A")&&vOn("B")&&Math.abs(vBPM("A")-vBPM("B"))<0.35;}
+function vPhase(){let d=vPos("B")-vPos("A");d=((d+0.5)%1+1)%1-0.5;return d;}
+function vAligned(){return vMatched()&&Math.abs(vPhase())<0.045;}
 function render(){requestAnimationFrame(render);if(!AC)return;
-  for(const k of["A","B"]){const dk=decks[k];$(`#bpm${k}`).textContent=(dk.mode==="file"&&!dk.buffer)?"--.-":dk.bpm.toFixed(1);let bp;if(dk.mode==="file"){if(dk.buffer)drawWave(k);bp=(dk.buffer&&dk.playing)?deckBar(dk):0;$(`#marker${k}`).style.transform=`rotate(${bp*360}deg)`;}else{const cs=liveStep(dk);$(`#marker${k}`).style.transform=`rotate(${(cs/16)*360}deg)`;bp=(((cs%16)+16)%16)/16;}const on=dk.playing&&((bp*4)%1<0.2);$(`#led${k}`).style.background=on?(k==="A"?"var(--cyan)":"var(--mag)"):"#26282f";
-    const lvl=dk.playing?Math.min(1,dk.trim*dk.vol*0.92*(0.92+(on?0.08:0))):0;$(`#gm${k}`).style.height=(Math.max(dk.playing?0.05:0,lvl)*100).toFixed(0)+"%";}
+  for(const k of["A","B"]){const dk=decks[k];
+    /* deck em modo código: prato, BPM e LED seguem o relógio do Strudel.
+       O estado do botão PLAY segue o motor (podes ter arrancado pelo ▶ do editor) */
+    if(dk.mode==="code"){
+      const on2=codePlaying(k);
+      if(on2!==dk.playing){dk.playing=on2;setPlayBtn(k,on2);}
+      const cyc=codeCycles(k),bpC=dk.playing?((cyc%1)+1)%1:0;
+      $(`#bpm${k}`).textContent=dk.playing?codeBPM(k).toFixed(1):"--.-";
+      $(`#marker${k}`).style.transform=`rotate(${bpC*360}deg)`;
+      const onC=dk.playing&&(bpC*4)%1<0.2;
+      $(`#led${k}`).style.background=onC?(k==="A"?"var(--cyan)":"var(--mag)"):"#26282f";
+      let lvlC=0;
+      if(dk.codeAn){try{if(!dk.codeBuf)dk.codeBuf=new Float32Array(dk.codeAn.fftSize);dk.codeAn.getFloatTimeDomainData(dk.codeBuf);let pk=0;for(let i=0;i<dk.codeBuf.length;i++){const v=Math.abs(dk.codeBuf[i]);if(v>pk)pk=v;}dk.codePeak=Math.max(pk,(dk.codePeak||0)*0.88);lvlC=Math.min(1,dk.codePeak);}catch(e){dk.codeAn=null;}}
+      $(`#gm${k}`).style.height=(Math.max(0.05,lvlC)*100).toFixed(0)+"%";
+      continue;
+    }
+    $(`#bpm${k}`).textContent=(dk.mode==="file"&&!dk.buffer)?"--.-":dk.bpm.toFixed(1);let bp;if(dk.mode==="file"){if(dk.buffer)drawWave(k);bp=(dk.buffer&&dk.playing)?deckBar(dk):0;$(`#marker${k}`).style.transform=`rotate(${bp*360}deg)`;}else{const cs=liveStep(dk);$(`#marker${k}`).style.transform=`rotate(${(cs/16)*360}deg)`;bp=(((cs%16)+16)%16)/16;}const on=dk.playing&&((bp*4)%1<0.2);$(`#led${k}`).style.background=on?(k==="A"?"var(--cyan)":"var(--mag)"):"#26282f";
+    let lvl=dk.playing?Math.min(1,dk.trim*dk.vol*0.92*(0.92+(on?0.08:0))):0;
+    /* deck a receber código: nível real do canal, com retenção de pico
+       (o RMS instantâneo entre batidas é ~0 e o medidor ficaria morto) */
+    if(mesaLinked&&dk.codeAn){try{if(!dk.codeBuf)dk.codeBuf=new Float32Array(dk.codeAn.fftSize);dk.codeAn.getFloatTimeDomainData(dk.codeBuf);let pk=0;for(let i=0;i<dk.codeBuf.length;i++){const v=Math.abs(dk.codeBuf[i]);if(v>pk)pk=v;}dk.codePeak=Math.max(pk,(dk.codePeak||0)*0.88);lvl=Math.max(lvl,Math.min(1,dk.codePeak));}catch(e){dk.codeAn=null;}}
+    $(`#gm${k}`).style.height=(Math.max(dk.playing?0.05:0,lvl)*100).toFixed(0)+"%";}
   updateMatchUI();drawScope();drawVU();updateDrills();updateHud();
 }
-function updateMatchUI(){const al=isAligned(),m=isMatched();for(const k of["A","B"]){const el=$(`#match${k}`);if(!decks[k].playing){el.textContent="parado";el.className="matchdot";continue;}if(al){el.textContent="✓ EM FASE";el.className="matchdot on";}else if(m){el.textContent="≈ tempo igual";el.className="matchdot on";}else{el.textContent="tempo livre";el.className="matchdot";}}}
-function drawScope(){const c=scopeCtx,W=c.canvas.width,cx=W/2,cy=W/2,R=W/2-14;c.clearRect(0,0,W,W);c.beginPath();c.arc(cx,cy,R,0,Math.PI*2);c.strokeStyle="#262a3a";c.lineWidth=2;c.stroke();for(let i=0;i<4;i++){const a=-Math.PI/2+i*Math.PI/2;c.beginPath();c.moveTo(cx+Math.cos(a)*(R-6),cy+Math.sin(a)*(R-6));c.lineTo(cx+Math.cos(a)*(R+3),cy+Math.sin(a)*(R+3));c.strokeStyle="#3a3f55";c.lineWidth=2;c.stroke();}function dot(dk,col){if(!dk.playing)return;const a=-Math.PI/2+barPos(dk)*Math.PI*2;const x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R;c.beginPath();c.arc(x,y,7,0,Math.PI*2);c.fillStyle=col;c.shadowColor=col;c.shadowBlur=10;c.fill();c.shadowBlur=0;}dot(decks.A,"#27e1ff");dot(decks.B,"#ff3ea5");c.textAlign="center";if(isAligned()){c.fillStyle="#39e58c";c.font="bold 11px Segoe UI";c.fillText("EM FASE",cx,cy+4);}else if(isMatched()){c.fillStyle="#ffd23e";c.font="10px Segoe UI";c.fillText("alinhar…",cx,cy+4);}else{c.fillStyle="#8a8fa6";c.font="9px Segoe UI";c.fillText("fase",cx,cy+4);}}
+function updateMatchUI(){const al=vAligned(),m=vMatched();for(const k of["A","B"]){const el=$(`#match${k}`);if(!vOn(k)){el.textContent="parado";el.className="matchdot";continue;}if(al){el.textContent="✓ EM FASE";el.className="matchdot on";}else if(m){el.textContent="≈ tempo igual";el.className="matchdot on";}else{el.textContent=vCode(k)?"código a tocar":"tempo livre";el.className="matchdot";}}
+  /* estado no cabeçalho de cada editor */
+  for(const k of["A","B"]){const e=$("#cdst"+k);if(!e)continue;const on=codePlaying(k);const t=on?`▶ a tocar · ${codeBPM(k).toFixed(1)} BPM`:"parado";if(e.textContent!==t){e.textContent=t;e.classList.toggle("on",on);}}}
+function drawScope(){const c=scopeCtx,W=c.canvas.width,cx=W/2,cy=W/2,R=W/2-14;c.clearRect(0,0,W,W);c.beginPath();c.arc(cx,cy,R,0,Math.PI*2);c.strokeStyle="#262a3a";c.lineWidth=2;c.stroke();for(let i=0;i<4;i++){const a=-Math.PI/2+i*Math.PI/2;c.beginPath();c.moveTo(cx+Math.cos(a)*(R-6),cy+Math.sin(a)*(R-6));c.lineTo(cx+Math.cos(a)*(R+3),cy+Math.sin(a)*(R+3));c.strokeStyle="#3a3f55";c.lineWidth=2;c.stroke();}function dot(k,col){if(!vOn(k))return;const a=-Math.PI/2+vPos(k)*Math.PI*2;const x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R;c.beginPath();c.arc(x,y,7,0,Math.PI*2);c.fillStyle=col;c.shadowColor=col;c.shadowBlur=10;c.fill();c.shadowBlur=0;}dot("A","#27e1ff");dot("B","#ff3ea5");c.textAlign="center";if(vAligned()){c.fillStyle="#39e58c";c.font="bold 11px Segoe UI";c.fillText("EM FASE",cx,cy+4);}else if(vMatched()){c.fillStyle="#ffd23e";c.font="10px Segoe UI";c.fillText("alinhar…",cx,cy+4);}else{c.fillStyle="#8a8fa6";c.font="9px Segoe UI";c.fillText("fase",cx,cy+4);}}
 function drawVU(){const arr=new Uint8Array(analyser.fftSize);analyser.getByteTimeDomainData(arr);let s=0;for(let i=0;i<arr.length;i++){const v=(arr[i]-128)/128;s+=v*v;}const rms=Math.sqrt(s/arr.length);const lvl=Math.min(1,rms*2.5);vuPeak=Math.max(lvl,vuPeak*0.92);$("#vu").style.width=(vuPeak*100).toFixed(0)+"%";}
 
 /* ===================== VERIFICAÇÃO DE DRILLS ===================== */
@@ -753,11 +887,305 @@ function renderGlossary(){const g=$("#glossList");g.innerHTML="";C.glossary.forE
 function renderCamelot(){const c=C.camelot;$("#camBox").innerHTML=`<div class="camcard"><h2>🎼 Mistura harmónica (Camelot)</h2><div class="keys"><div class="keybox"><div class="k">${c.trackAkey}</div><div class="d">Deck A · Sunset House</div></div><div class="keybox"><div class="k">${c.trackBkey}</div><div class="d">Deck B · Night Drive</div></div></div><span class="compat">${c.compatible?"✓ Compatíveis":"✕ Incompatíveis"}</span><p>${c.explain}</p><p><b style="color:var(--cyan)">Próximo passo:</b> ${c.note}</p></div>`;}
 function renderPlan(){const p=$("#planList");p.innerHTML="";C.practicePlan.forEach(x=>p.appendChild(el("div","planitem",x)));}
 
-function bindTabs(){$$(".tab").forEach(t=>t.onclick=()=>{$$(".tab").forEach(x=>x.classList.remove("on"));t.classList.add("on");["licoes","glossario","camelot","plano"].forEach(name=>{$("#tab-"+name).hidden=(name!==t.dataset.tab);});});}
+function bindTabs(){$$(".tab").forEach(t=>t.onclick=()=>{$$(".tab").forEach(x=>x.classList.remove("on"));t.classList.add("on");["licoes","glossario","camelot","plano","codigo"].forEach(name=>{$("#tab-"+name).hidden=(name!==t.dataset.tab);});if(t.dataset.tab==="codigo")initCodeStudio();});}
+
+/* ===================== MIXAR COM CÓDIGO (live coding / Strudel) ===================== */
+const CC=window.CODE_COURSE;
+const codeDone=new Set(),codeQuizDone=new Set();
+let studioReady=false,studioLoading=false,pendingLoads=[],pendingLink=false;
+const esc=(s)=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function codeProgress(){const tot=CC.lessons.length*2;$("#codeProg").textContent=`progresso: ${codeDone.size+codeQuizDone.size}/${tot}`;}
+/* Um editor POR DECK. O utilizador nunca escreve .orbit(): o encaminhamento é
+   injectado no fim do código (all(...) no fim não desloca as linhas dele, por
+   isso o realce de padrões do editor continua alinhado). */
+const codeEls={A:null,B:null};
+function codeEditor(k){const e=codeEls[k];return e&&e.editor?e.editor:null;}
+function orbitOf(k){return k==="B"?2:1;}
+const codeShift={A:0,B:0};   // atraso em ciclos aplicado pelo SYNC
+function withOrbit(code,k){
+  const sh=codeShift[k]||0;
+  return code+"\n/* deck */ all(x => x.orbit("+orbitOf(k)+")"+(sh?".late("+sh.toFixed(5)+")":"")+")";
+}
+function mountDeckEditor(k,code){
+  const h=$("#cdhold"+k);h.innerHTML="";
+  const e=document.createElement("strudel-editor");
+  e.appendChild(document.createComment("\n"+(code||"")+"\n"));
+  h.appendChild(e);codeEls[k]=e;
+  wireDeckEditor(k,0);
+}
+function wireDeckEditor(k,tries){
+  const ed=codeEditor(k);
+  if(!ed){if((tries||0)<40)setTimeout(()=>wireDeckEditor(k,(tries||0)+1),120);return;}
+  if(ed.__mesaWired)return;
+  ed.solo=false;                       // sem isto, avaliar um deck pára o outro
+  ed.evaluate=async function(autostart){
+    const src=(this.code||"").trim();
+    if(!src){try{this.repl.stop();}catch(e){}return;}
+    try{this.flash();}catch(e){}
+    await this.repl.evaluate(withOrbit(this.code,k),autostart===undefined?true:autostart);
+    /* o setcpm do código define o tempo base; o fader de tempo do deck
+       trabalha em cima dele */
+    const s=this.repl.scheduler;
+    if(s){codeBaseCps[k]=s.cps;if(decks[k].pitch)setTempo(k,decks[k].pitch);}
+  };
+  ed.__mesaWired=true;
+}
+function initCodeStudio(){
+  if(studioReady||studioLoading)return;
+  studioLoading=true;$("#studioOffline").hidden=true;
+  const s=document.createElement("script");
+  s.src="https://unpkg.com/@strudel/repl@latest";
+  s.onload=()=>{
+    studioReady=true;ensureMesaContext(0);startCtxWatch();
+    mountDeckEditor("A",pendingLoads.length?"":CC.lessons[0].code);
+    mountDeckEditor("B","");
+    pendingLoads.forEach(p=>{mountDeckEditor(p.k,p.code);enterCodeMode(p.k);});pendingLoads=[];
+    if(pendingLink){pendingLink=false;setTimeout(()=>{mesaLinked=true;applyMesaLink();toast("Código ligado à mesa · Deck A e Deck B separados");},1200);}
+  };
+  s.onerror=()=>{studioLoading=false;s.remove();$("#studioOffline").hidden=false;};
+  document.head.appendChild(s);
+}
+/* ---- o código como "faixa" do deck ----
+   Entrar em modo código descarrega o que lá estivesse (synth ou MP3): um deck
+   nunca toca código e música ao mesmo tempo. */
+const codeBaseCps={A:null,B:null};
+function enterCodeMode(k){
+  const dk=decks[k];
+  if(dk.mode==="code")return;
+  if(dk.mode==="file"){stopFile(dk);dk.buffer=null;dk.peaks=null;dk.cues=[null,null,null,null];drawWave(k);}
+  dk.playing=false;dk.mode="code";
+  $(`#track${k}`).textContent="Código ao vivo";$(`#key${k}`).textContent="💻";
+  setPlayBtn(k,false);
+  if(!mesaLinked&&sdCtl()){mesaLinked=true;applyMesaLink();}   // o código está no deck: passa pelo canal
+  else applyMesaLink();
+}
+function exitCodeMode(k){
+  const dk=decks[k];
+  if(dk.mode!=="code")return;
+  const ed=codeEditor(k);if(ed){try{ed.repl.stop();}catch(e){}}
+  codeShift[k]=0;codeBaseCps[k]=null;
+  dk.playing=false;dk.mode="synth";
+  $(`#key${k}`).textContent=dk.pattern?($(`#key${k}`).textContent||"8A"):"8A";
+  setPlayBtn(k,false);
+  $("#cb"+k).hidden=true;
+}
+function loadIntoDeck(code,k){
+  if(!studioReady){pendingLoads.push({k,code});initCodeStudio();}
+  else{mountDeckEditor(k,code);enterCodeMode(k);}
+  $("#studioBox").scrollIntoView({behavior:"smooth",block:"start"});
+}
+async function moveDeckCode(from){
+  const to=from==="A"?"B":"A";
+  const src=codeEditor(from),dst=codeEditor(to);
+  if(!src||!dst)return;
+  const code=src.code||"",there=dst.code||"";
+  if(!code.trim()){toast("O Deck "+from+" está vazio");return;}
+  /* se o outro deck já tem código, TROCAM de lado — passar por cima
+     apagaria trabalho sem aviso */
+  src.setCode(there);dst.setCode(code);
+  /* avaliações SEQUENCIAIS: duas ao mesmo tempo pisam-se no estado global do
+     motor e um dos decks fica mudo */
+  enterCodeMode(to);
+  if(there.trim()){try{await src.evaluate();}catch(e){}}
+  else{try{src.repl.stop();}catch(e){}exitCodeMode(from);}
+  try{await dst.evaluate();}catch(e){}
+  decks[to].playing=true;setPlayBtn(to,true);
+  if(there.trim()){decks[from].playing=true;setPlayBtn(from,true);}
+  toast(there.trim()?"Decks trocados: A ⇄ B":"Código passou do Deck "+from+" para o Deck "+to);
+}
+function clearDeckCode(k){const ed=codeEditor(k);if(!ed)return;ed.setCode("");exitCodeMode(k);toast("Deck "+k+" limpo — voltou ao sintetizador");}
+
+/* ---- Ligar o código à mesa ----
+   O Strudel passa a usar o AudioContext DA MESA e cada orbit entra num canal:
+   orbit 1 → Deck A, orbit 2 → Deck B (EQ/filtro/fader/crossfader aplicam-se ao código).
+   Duas peças, verificadas por inspecção do motor em runtime:
+   1) setAudioContext(AC) — o relógio do scheduler é getAudioContext().currentTime,
+      por isso sem isto os eventos são agendados no tempo do contexto errado e não soa nada;
+   2) SuperdoughAudioController.getOrbit(n) cria um Orbit por número cujo .output
+      liga por defeito ao destino global — redireccionamo-lo para dk.input. */
+let mesaLinked=false;
+const deckOfOrbit=(n)=>Number(n)===2?"B":"A";
+function sdCtl(){try{return window.getSuperdoughAudioController?window.getSuperdoughAudioController():null;}catch(e){return null;}}
+/* O bundle publica setAudioContext/getSuperdoughAudioController DEPOIS do onload
+   do script (superdough vem em separado) — daí ter de se insistir até pegar.
+   Sem isto o motor fica no contexto dele e nada entra na mesa. */
+function useMesaContext(){
+  if(!AC||typeof window.setAudioContext!=="function")return false;
+  try{
+    window.setAudioContext(AC);
+    const ctl=sdCtl();
+    if(ctl&&ctl.audioContext!==AC&&window.setSuperdoughAudioController){
+      /* largar os nós do controller antigo: senão ficam pendurados nos canais
+         da mesa e acumulam a cada troca */
+      try{ctl.reset();}catch(e){}
+      window.setSuperdoughAudioController(new ctl.constructor(AC));
+    }
+    patchOrbits();
+    return typeof window.getAudioContext==="function"&&window.getAudioContext()===AC;
+  }catch(e){return false;}
+}
+function ensureMesaContext(tries){
+  if(useMesaContext())return;
+  if((tries||0)>60)return;
+  setTimeout(()=>ensureMesaContext((tries||0)+1),150);
+}
+/* Pôr o contexto UMA vez não chega: o bundle continua a carregar módulos depois
+   e volta a publicar os globais com o contexto dele. Esta vigia repõe contexto
+   e encaminhamento sempre que isso acontecer. */
+let mesaCtxWatch=null,lastReEval=-99;
+function startCtxWatch(){
+  if(mesaCtxWatch)return;
+  mesaCtxWatch=setInterval(()=>{
+    if(!AC||typeof window.setAudioContext!=="function")return;
+    const ctl=sdCtl();
+    const ctxWrong=typeof window.getAudioContext==="function"&&window.getAudioContext()!==AC;
+    const ctlWrong=!!ctl&&ctl.audioContext!==AC;
+    if(!ctxWrong&&!ctlWrong)return;
+    useMesaContext();
+    if(!mesaLinked)return;
+    applyMesaLink();
+    /* re-avaliar no máximo de 3 em 3s: se o contexto teimar em ser reposto,
+       re-avaliar a cada 600ms picotava o áudio em vez de o salvar */
+    const now=AC.currentTime;
+    if(now-lastReEval>3){lastReEval=now;reEvaluateStudio();}
+  },600);
+}
+function routeOrbit(n,orbit){
+  const ctl=sdCtl();if(!ctl||!orbit||!orbit.output)return;
+  try{orbit.output.disconnect();}catch(e){}
+  if(mesaLinked&&AC&&decks.A.input)orbit.output.connect(decks[deckOfOrbit(n)].input);
+  else ctl.output.connectToDestination(orbit.output);
+}
+/* marca no PRÓPRIO protótipo, não numa variável global: se o controller for
+   substituído, uma flag global reposta faria embrulhar o wrapper dentro de si
+   mesmo a cada troca (routeOrbit chamado n vezes e wrappers a acumular). */
+function patchOrbits(){
+  const ctl=sdCtl();if(!ctl)return;
+  const proto=Object.getPrototypeOf(ctl);
+  if(!proto||proto.__mesaPatched)return;
+  const orig=proto.getOrbit;
+  if(typeof orig!=="function")return;
+  proto.getOrbit=function(n,ch){const isNew=this.nodes[n]==null;const o=orig.call(this,n,ch);if(isNew)routeOrbit(n,o);return o;};
+  proto.__mesaPatched=true;
+}
+/* medidor do código: pós-fader (dk.ch) — assim segue o fader como o medidor
+   simulado dos outros modos; pré-fader ficava encravado no topo */
+function deckMeterNode(k){const dk=decks[k];if(!dk.codeAn&&AC&&dk.ch){dk.codeAn=AC.createAnalyser();dk.codeAn.fftSize=1024;dk.ch.connect(dk.codeAn);}return dk.codeAn;}
+function applyMesaLink(){
+  if(mesaLinked)useMesaContext();
+  const ctl=sdCtl();
+  if(ctl){
+    patchOrbits();
+    [1,2].forEach(n=>{try{routeOrbit(n,ctl.getOrbit(n));}catch(e){}});
+    Object.keys(ctl.nodes||{}).forEach(n=>{if(n!=="1"&&n!=="2")routeOrbit(n,ctl.nodes[n]);});
+  }
+  /* UI sempre actualizada, mesmo sem motor: senão o botão dizia "ligado"
+     com o áudio na mesma a sair directo */
+  ["A","B"].forEach(k=>{$("#cb"+k).hidden=!(mesaLinked&&decks[k].mode==="code");if(mesaLinked)deckMeterNode(k);});
+  $("#mesaLink").classList.toggle("on",mesaLinked);
+  $("#mesaLink").textContent=mesaLinked?"🔌 Desligar da mesa":"🔌 Ligar o código à mesa";
+  $("#mesaHint").innerHTML=mesaLinked
+    ?"Ligado: o editor de cima sai pelo <b>Deck A</b>, o de baixo pelo <b>Deck B</b>. EQ, filtro, faders, crossfader e pratos da mesa passam a mandar no som do código; o <b>SYNC</b> de cada deck alinha a fase pelo outro."
+    :"Agora o som do código sai directo para as colunas, sem passar pela mesa.";
+}
+function toggleMesaLink(){
+  if(!sdCtl()){toast("Carrega primeiro um código no estúdio (botão ▶ de uma lição)");initCodeStudio();return;}
+  pendingLink=false;   // decisão manual manda sobre a ligação automática agendada
+  mesaLinked=!mesaLinked;applyMesaLink();
+  /* trocar de contexto a meio desalinha o relógio do que já está a tocar:
+     re-avaliar volta a agendar tudo no contexto certo */
+  reEvaluateStudio();
+  toast(mesaLinked?"Código ligado à mesa · orbit(1)=Deck A · orbit(2)=Deck B":"Código desligado da mesa");
+}
+function reEvaluateStudio(){["A","B"].forEach(k=>{const ed=codeEditor(k);if(ed&&ed.repl&&ed.repl.scheduler&&ed.repl.scheduler.started){try{ed.evaluate();}catch(e){}}});}
+/* ---- relógio do código: posição do ciclo p/ o prato, BPM e fase ---- */
+function codeSched(k){const ed=codeEditor(k);return ed&&ed.repl?ed.repl.scheduler:null;}
+function codePlaying(k){const s=codeSched(k);return !!(s&&s.started);}
+/* posição do ciclo TAL COMO o scheduler a usa (now()), menos o atraso do SYNC,
+   para o prato mostrar o que se ouve. A minha fórmula anterior
+   (seconds_at_cps_change) não era a que manda nos eventos. */
+function codeCycles(k){const s=codeSched(k);if(!s||!s.started)return 0;return s.now()-(codeShift[k]||0);}
+function codeBPM(k){const s=codeSched(k);return s?s.cps*240:0;}   // 4 batidas por ciclo
+/* SYNC entre decks de código.
+   NÃO mexer nos campos internos do scheduler: o tick reescreve lastBegin/lastEnd
+   e alterar seconds_at_cps_change agenda eventos em tempos que já passaram — o
+   deck emudece. Faz-se pela API pública: atrasa-se o PADRÃO com .late(ciclos).
+   Como audio(k) = now(k) − shift(k), igualar os dois decks dá o shift abaixo. */
+function codeSyncTo(k){
+  const other=k==="A"?"B":"A";
+  const me=codeSched(k),ref=codeSched(other),ed=codeEditor(k);
+  if(!me||!ref||!me.started||!ref.started||!ed){toast("SYNC: precisas dos dois decks de código a tocar");return false;}
+  let d=((codeShift[other]||0)+me.now()-ref.now())%1;
+  if(d<0)d+=1;
+  codeShift[k]=+d.toFixed(5);
+  ed.evaluate();
+  toast("Deck "+k+" alinhado com o Deck "+other);
+  return true;
+}
+function renderCodeCourse(){
+  $("#codeIntro").innerHTML=`<b>${CC.title}</b><br><br>${CC.intro}`;
+  const rows=CC.map.map(r=>`<tr><td>${esc(r.dj)}</td><td><code>${esc(r.code)}</code></td></tr>`).join("");
+  $("#codeMap").innerHTML=`<h3>${CC.mapTitle}</h3><div class="theory">${CC.mapIntro}</div><table><thead><tr><th>Na mesa</th><th>Em código</th></tr></thead><tbody>${rows}</tbody></table>`;
+  renderDeckDemo();
+  const list=$("#codeLessons");list.innerHTML="";
+  CC.lessons.forEach((L,i)=>list.appendChild(codeLessonCard(L,i)));
+  codeProgress();
+}
+function renderDeckDemo(){
+  const D=CC.deckDemo,box=$("#codeDeckDemo");box.innerHTML="";
+  box.appendChild(el("h3",null,D.title));
+  box.appendChild(el("div","theory",D.theory));
+  const s=el("div","blk steps");s.appendChild(el("h4",null,"Experimenta"));const su=el("ul");D.steps.forEach(x=>su.appendChild(el("li",null,x)));s.appendChild(su);box.appendChild(s);
+  ["A","B"].forEach(k=>{
+    const cb=el("div","codeblock");
+    const pre=document.createElement("pre");pre.textContent="/* DECK "+k+" */\n"+D["code"+k];cb.appendChild(pre);
+    const btns=el("div","cbtns");
+    const run=el("button","crun"+(k==="B"?" b":""),"▶ Carregar no Deck "+k);
+    run.onclick=()=>{if(!mesaLinked)pendingLink=true;loadIntoDeck(D["code"+k],k);if(pendingLink&&sdCtl()){pendingLink=false;mesaLinked=true;applyMesaLink();toast("Código ligado à mesa");}};
+    btns.appendChild(run);cb.appendChild(btns);box.appendChild(cb);
+  });
+}
+function codeLessonCard(L,i){
+  const key="code:"+i;
+  const card=el("div","lesson"+(codeDone.has(key)&&codeQuizDone.has(key)?" done":""));
+  card.appendChild(el("h3",null,`${i+1}. ${L.title} <span class="lvl ${L.level}">${L.level}</span>`));
+  card.appendChild(el("div","theory",L.theory));
+  card.appendChild(el("div","why","Porquê: "+L.why));
+  const cols=el("div","cols");
+  const s=el("div","blk steps");s.appendChild(el("h4",null,"Passos"));const su=el("ul");L.steps.forEach(x=>su.appendChild(el("li",null,x)));s.appendChild(su);
+  const mi=el("div","blk miss");mi.appendChild(el("h4",null,"Erros a evitar"));const mu=el("ul");L.mistakes.forEach(x=>mu.appendChild(el("li",null,x)));mi.appendChild(mu);
+  cols.appendChild(s);cols.appendChild(mi);card.appendChild(cols);
+  const cb=el("div","codeblock");
+  const pre=document.createElement("pre");pre.textContent=L.code;cb.appendChild(pre);
+  const cbtns=el("div","cbtns");
+  const run=el("button","crun","▶ Deck A");run.onclick=()=>loadIntoDeck(L.code,"A");
+  const runB=el("button","crun b","▶ Deck B");runB.onclick=()=>loadIntoDeck(L.code,"B");
+  const cp=el("button",null,"📋 Copiar");cp.onclick=()=>{navigator.clipboard.writeText(L.code).then(()=>toast("Código copiado — também podes colar no strudel.cc")).catch(()=>toast("Não deu para copiar"));};
+  cbtns.appendChild(run);cbtns.appendChild(runB);cbtns.appendChild(cp);cb.appendChild(cbtns);card.appendChild(cb);
+  const dr=el("div","drill"+(codeDone.has(key)?" done":""));
+  dr.appendChild(el("div","dt","🎯 Experimenta no estúdio"));
+  dr.appendChild(el("div","task",L.task));
+  const ctrl=el("div","ctrl");
+  const stat=el("span","dstat",codeDone.has(key)?"✓ feito":"exercício livre — marca quando fizeres");
+  const btns=el("div","btns");
+  const mk=el("button","train","Marcar feito");
+  mk.onclick=()=>{if(codeDone.has(key))return;codeDone.add(key);dr.classList.add("done");stat.textContent="✓ feito";toast("✓ Drill de código: "+L.title);if(codeQuizDone.has(key))card.classList.add("done");codeProgress();};
+  btns.appendChild(mk);ctrl.appendChild(stat);ctrl.appendChild(btns);dr.appendChild(ctrl);card.appendChild(dr);
+  const qz=el("div","quiz"+(codeQuizDone.has(key)?" answered":""));
+  qz.appendChild(el("div","q","❓ "+L.quiz.q));
+  L.quiz.options.forEach((opt,oi)=>{const ob=el("button","opt",opt);if(codeQuizDone.has(key)&&oi===L.quiz.answerIndex)ob.classList.add("right");ob.onclick=()=>{if(qz.classList.contains("answered"))return;if(oi===L.quiz.answerIndex){ob.classList.add("right");qz.classList.add("answered");if(!codeQuizDone.has(key)){codeQuizDone.add(key);toast("✓ Quiz certo");if(codeDone.has(key))card.classList.add("done");codeProgress();}}else{ob.classList.add("wrong");qz.classList.add("answered");}};qz.appendChild(ob);});
+  qz.appendChild(el("div","exp","💡 "+L.quiz.explain));
+  card.appendChild(qz);
+  return card;
+}
 
 /* ===================== ARRANQUE ===================== */
 function startAcademy(){
-  renderIntro();countTotals();renderModule();renderGlossary();renderCamelot();renderPlan();bindTabs();updateProgress();
+  renderIntro();countTotals();renderModule();renderGlossary();renderCamelot();renderPlan();renderCodeCourse();bindTabs();updateProgress();
+  $("#studioRetry").onclick=()=>initCodeStudio();
+  $("#mesaLink").onclick=toggleMesaLink;
+  $$("[data-cmove]").forEach(b=>b.onclick=()=>moveDeckCode(b.dataset.cmove));
+  $$("[data-cclear]").forEach(b=>b.onclick=()=>clearDeckCode(b.dataset.cclear));
 }
 $("#startBtn").onclick=async()=>{buildAudio();if(AC.state==="suspended")await AC.resume();$("#overlay").style.display="none";bindControls();startAcademy();render();};
 $("#toggleDock").onclick=()=>{const c=$("#controller");const hid=c.classList.toggle("hidden");$("#toggleDock").textContent=hid?"Mostrar mesa ▼":"Esconder mesa ▲";};
@@ -769,8 +1197,8 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http")===0){
   addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
 $("#hudX").onclick=()=>{hudDrill=null;$("#hud").classList.remove("show");};
-function resetMesa(){if(!AC)return;for(const k of["A","B"]){const dk=decks[k];setPlay(k,false);dk.absStep=0;dk.loopOn=false;dk.echoOn=false;dk.syncOn=false;$(`[data-loop="${k}"]`).classList.remove("on");$(`[data-echo="${k}"]`).classList.remove("on");$(`[data-sync="${k}"]`).classList.remove("on");if(dk.echoSend)dk.echoSend.gain.setTargetAtTime(0,AC.currentTime,0.02);setVol(k,0.8);setFaderUI(`vol${k}`,0.8);setTempo(k,0);setFaderUI(`tempo${k}`,0);}setXfader(0);["A:trim","B:trim"].forEach(id=>setKnob(id,0.6));["A:low","A:mid","A:high","B:low","B:mid","B:high","A:filter","B:filter"].forEach(id=>setKnob(id,0));setKnob("M:master",0.85);hudDrill=null;$("#hud").classList.remove("show");}
-$("#resetBtn").onclick=()=>{completedDrills.clear();completedQuiz.clear();score=0;curMod=0;resetMesa();renderModule();renderGlossary();renderCamelot();renderPlan();updateProgress();toast("Progresso e mesa reiniciados");};
+function resetMesa(){if(!AC)return;for(const k of["A","B"]){const dk=decks[k];setPlay(k,false);exitCodeMode(k);dk.absStep=0;dk.loopOn=false;dk.echoOn=false;dk.syncOn=false;$(`[data-loop="${k}"]`).classList.remove("on");$(`[data-echo="${k}"]`).classList.remove("on");$(`[data-sync="${k}"]`).classList.remove("on");if(dk.echoSend)dk.echoSend.gain.setTargetAtTime(0,AC.currentTime,0.02);setVol(k,0.8);setFaderUI(`vol${k}`,0.8);setTempo(k,0);setFaderUI(`tempo${k}`,0);}setXfader(0);["A:trim","B:trim"].forEach(id=>setKnob(id,0.6));["A:low","A:mid","A:high","B:low","B:mid","B:high","A:filter","B:filter"].forEach(id=>setKnob(id,0));setKnob("M:master",0.85);hudDrill=null;$("#hud").classList.remove("show");}
+$("#resetBtn").onclick=()=>{completedDrills.clear();completedQuiz.clear();codeDone.clear();codeQuizDone.clear();score=0;curMod=0;codeShift.A=0;codeShift.B=0;if(mesaLinked){mesaLinked=false;applyMesaLink();}resetMesa();renderModule();renderGlossary();renderCamelot();renderPlan();renderCodeCourse();updateProgress();toast("Progresso e mesa reiniciados");};
 let toastT=null;function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove("show"),2000);}
 </script>
 </body>
